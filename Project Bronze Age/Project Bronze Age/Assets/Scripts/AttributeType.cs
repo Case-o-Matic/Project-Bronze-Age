@@ -5,8 +5,10 @@ public enum AttributeType
 {
     CurrentHealth,
     CurrentStamina,
-    MaxHealth,
-    MaxStamina,
+    BaseMaxHealth,
+    BonusMaxHealth,
+    BaseMaxStamina,
+    BonusMaxStamina,
     BaseMovementspeed,
     BonusMovementspeed,
     BaseArmor,

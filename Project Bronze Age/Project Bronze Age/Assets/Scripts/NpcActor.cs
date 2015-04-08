@@ -6,8 +6,14 @@ using System.Text;
 [Obsolete()]
 public class NpcActor : MovableActor
 {
+    protected override void Update()
+    {
+        DoAIControl();
+        base.Update();
+    }
+
     public void DoAIControl()
     {
-        throw new System.NotImplementedException();
+
     }
 }

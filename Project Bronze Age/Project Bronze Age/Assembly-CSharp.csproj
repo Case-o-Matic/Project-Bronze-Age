@@ -49,9 +49,14 @@
      <Compile Include="Assets\Scripts\AIAction.cs" />
      <Compile Include="Assets\Scripts\Actor.cs" />
      <Compile Include="Assets\Scripts\AttributeType.cs" />
+     <Compile Include="Assets\Scripts\Buff.cs" />
+     <Compile Include="Assets\Scripts\BuffEffect.cs" />
+     <Compile Include="Assets\Scripts\Inventory.cs" />
+     <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\MovableActor.cs" />
      <Compile Include="Assets\Scripts\NpcActor.cs" />
      <Compile Include="Assets\Scripts\PlayerActor.cs" />
+     <Compile Include="Assets\Scripts\Quest.cs" />
      <Compile Include="Assets\Scripts\StaticActor.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
