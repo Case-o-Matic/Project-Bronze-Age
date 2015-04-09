@@ -13,14 +13,11 @@ namespace LoginServer
         static void Main(string[] args)
         {
             Console.WriteLine("Project Bronze Age v" + version);
-
-            start:
             Console.WriteLine("Start by pressing ENTER...");
             if (Console.ReadKey().Key == ConsoleKey.Enter)
             {
 
             }
-            else goto start;
         }
     }
 }
