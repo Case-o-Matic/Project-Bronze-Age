@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 [Serializable()]
-public class Buff
+public class Buff : ScriptableObject
 {
-    private string buffName;
-    private string buffDescription;
+    public string buffName;
+    public string buffDescription;
+    public float liveTime;
+    public bool hasLivetime, isRemovable;
+    public float currentLiveTime;
 
     public List<BuffEffect> effects;
 }

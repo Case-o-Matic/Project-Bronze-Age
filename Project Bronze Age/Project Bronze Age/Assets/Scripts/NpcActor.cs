@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UnityEngine;
 
 [Obsolete()]
 public class NpcActor : MovableActor
 {
+    public NavMeshAgent navMeshAgent;
+
     protected override void Update()
     {
         DoAIControl();

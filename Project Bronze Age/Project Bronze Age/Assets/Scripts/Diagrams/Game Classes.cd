@@ -10,77 +10,91 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAwBAAAAAiJAAAAgABAAAAAAAAAAAAAAAACAAAAAAEA=</HashCode>
+      <HashCode>CAwBAAAAAiJAAABgABACAAAAAAAAAAAAAACEAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Actor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MovableActor">
-    <Position X="5.5" Y="5.25" Width="1.5" />
+    <Position X="5.5" Y="6.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="MovableActor.Level" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\MovableActor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAABAAIAACAAAQAgAJAAAAAAABEAEAACAAgQAAAAAAA=</HashCode>
+      <HashCode>AAQRAQIBACAAAAAgABAAAAAAIBEAEAACAAgQAAABgAE=</HashCode>
       <FileName>Assets\Scripts\MovableActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StaticActor">
-    <Position X="2.25" Y="5.25" Width="1.5" />
+    <Position X="2.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\StaticActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerActor">
-    <Position X="6.75" Y="10" Width="1.5" />
+    <Position X="6.75" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\PlayerActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NpcActor">
-    <Position X="4.5" Y="10" Width="1.5" />
+    <Position X="4.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\NpcActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Inventory" Collapsed="true">
-    <Position X="12.75" Y="1.25" Width="1.5" />
+    <Position X="9.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAgAAAAAgAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Quest" Collapsed="true">
-    <Position X="11" Y="2.25" Width="1.5" />
+    <Position X="12.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Quest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Item" Collapsed="true">
-    <Position X="9.25" Y="2.25" Width="1.5" />
+    <Position X="11" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Buff" Collapsed="true">
-    <Position X="9.25" Y="1.25" Width="1.5" />
+    <Position X="11" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAAAEAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Buff.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BuffEffect" Collapsed="true">
-    <Position X="11" Y="1.25" Width="1.5" />
+    <Position X="12.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAACAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\BuffEffect.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Ability" Collapsed="true">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAgABAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Ability.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="AttributeType" Collapsed="true">
     <Position X="9.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAggAAAAAACCAAAAAAAAAQwAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <HashCode>AAAgoAAAAAACBAAAABAAAAQgAAAAAAAAAAQAAAAAEAA=</HashCode>
       <FileName>Assets\Scripts\AttributeType.cs</FileName>
     </TypeIdentifier>
   </Enum>

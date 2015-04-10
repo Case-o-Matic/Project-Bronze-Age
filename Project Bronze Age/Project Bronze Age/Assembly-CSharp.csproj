@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AIAction.cs" />
+     <Compile Include="Assets\Scripts\Ability.cs" />
      <Compile Include="Assets\Scripts\Actor.cs" />
      <Compile Include="Assets\Scripts\AttributeType.cs" />
      <Compile Include="Assets\Scripts\Buff.cs" />
@@ -58,8 +59,7 @@
      <Compile Include="Assets\Scripts\PlayerActor.cs" />
      <Compile Include="Assets\Scripts\Quest.cs" />
      <Compile Include="Assets\Scripts\StaticActor.cs" />
-     <Compile Include="Assets\Scripts\Systems\CameraMovementSystem.cs" />
-     <Compile Include="Assets\Scripts\Systems\ClientSystem.cs" />
+     <Compile Include="Assets\Scripts\Systems\CameraSystem.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

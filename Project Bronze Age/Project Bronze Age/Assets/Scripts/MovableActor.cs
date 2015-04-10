@@ -13,8 +13,18 @@ public class MovableActor : Actor
     public List<Buff> buffs;
     public Level level;
     public Inventory inventory;
+    public List<Ability> abilities;
 
     public bool isDead { get { return attributes[AttributeType.CurrentHealth] == 0; } }
+
+    public void ApplyBuff(string buff)
+    {
+        Buff newBuff = Instantiate<Buff>(Resources.Load<Buff>("Assets/Resources/Buffs/" + buff));
+    }
+    public void UnapplyBuff(Buff buff)
+    {
+        if(buffs)
+    }
 
     protected override void Start()
     {
@@ -66,7 +76,27 @@ public class MovableActor : Actor
     }
     private void UpdateBuffs()
     {
+        for (int i = 0; i < buffs.Count; i++)
+        {
+            Buff buff = buffs[i];
+            if (buff.currentLiveTime > 0)
+            {
+                buff.currentLiveTime -= Time.deltaTime;
+                if (buff.currentLiveTime <= 0)
+                {
+                    buff.currentLiveTime = 0;
 
+                }
+            }
+        }
+    }
+
+    public void UseAbility(Ability ability)
+    {
+        if(abilities.Contains(ability))
+        {
+            ability.OnUse();
+        }
     }
 
     public struct Level
