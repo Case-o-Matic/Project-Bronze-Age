@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using System;
+using System.IO;
 
 public class ResourceSystem : MonoBehaviour
 {
@@ -13,6 +14,14 @@ public class ResourceSystem : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        ResourceData rData = new ResourceData();
+        rData.items = new List<ResouceDataItem>();
+        rData.items.Add(new ResouceDataItem() { name = "BaseMaxHealth", type = ResouceDataItem.ResourceDataType.Attributes, data = "120" });
+        rData.items.Add(new ResouceDataItem() { name = "BaseArmor", type = ResouceDataItem.ResourceDataType.Attributes, data = "4" });
+        rData.items.Add(new ResouceDataItem() { type = ResouceDataItem.ResourceDataType.Items, data = "Testitem 1" });
+
+        xmlSerializer.Serialize(File.Create("Example ResourceData File.xml"), rData);
     }
 
     public void ApplyResourceData(NpcActor actor)

@@ -43,11 +43,14 @@ public class LiveActor : Actor
     {
         var newBuff = Instantiate<Buff>(Resources.Load<Buff>("Assets/Resources/Buffs/" + buff));
         buffs.Add(newBuff);
+        
+        // Apply the effects of the buff to the owning actor
     }
     public void UnapplyBuff(Buff buff)
     {
         if (buffs.Contains(buff))
         {
+            // Unapply the effects of the buff from the owning actor
             buffs.Remove(buff);
         }
     }

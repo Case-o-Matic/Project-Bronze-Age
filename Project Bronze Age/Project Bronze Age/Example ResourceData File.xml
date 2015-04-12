@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ResourceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <items>
+    <ResouceDataItem>
+      <type>Attributes</type>
+      <name>BaseMaxHealth</name>
+      <data xsi:type="xsd:string">120</data>
+    </ResouceDataItem>
+    <ResouceDataItem>
+      <type>Attributes</type>
+      <name>BaseArmor</name>
+      <data xsi:type="xsd:string">4</data>
+    </ResouceDataItem>
+    <ResouceDataItem>
+      <type>Items</type>
+      <data xsi:type="xsd:string">Testitem 1</data>
+    </ResouceDataItem>
+  </items>
+</ResourceData>
