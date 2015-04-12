@@ -13,5 +13,5 @@ public class Buff : ScriptableObject
     public bool hasLivetime, isRemovable;
     public float currentLiveTime;
 
-    public List<BuffEffect> effects;
+    public List<Effect> effects;
 }

@@ -150,9 +150,6 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
- <Reference Include="ProjectBronzeAge.Central">
- <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Central.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>

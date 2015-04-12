@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class PlayerActor : MovableActor
+public class PlayerActor : LiveActor
 {
+    public float horizontalMove, verticalMove;
+
     protected override void Update()
     {
         DoMove();
@@ -16,8 +18,8 @@ public class PlayerActor : MovableActor
 
     private void DoMove()
     {
-        float hor = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
+        horizontalMove = Input.GetAxis("Horizontal");
+        verticalMove = Input.GetAxis("Vertical");
     }
 
     private void DoControl()

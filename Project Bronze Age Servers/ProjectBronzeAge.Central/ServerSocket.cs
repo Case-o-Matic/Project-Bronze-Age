@@ -67,14 +67,5 @@ namespace ProjectBronzeAge.Central
                 }
             }
         }
-
-        private void InitializeDB()
-        {
-
-        }
-        private bool LoginDB(string username, string password)
-        {
-
-        }
     }
 }

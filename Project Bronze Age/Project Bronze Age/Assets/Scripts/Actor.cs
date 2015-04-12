@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class Actor : MonoBehaviour
 {
-    public const int maxTransformInterpolationBuffer = 20;
+    public const int maxTransformInterpolationBuffer = 25;
 
     public string permanentId = Guid.NewGuid().ToString();
     public string actorName;

@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Ability
+public class Ability : ScriptableObject
 {
     public string abilityName;
     public string abilityDescription;
     public float abilityCooldown;
+    public AbilityTarget target;
+    public List<Effect> targetEffects;
+    public float currentAbilityCooldown;
 
     public bool canUseAbility { get { return currentAbilityCooldown == 0; } }
 
-    public float currentAbilityCooldown;
-
-    public void OnUse()
+    [Serializable]
+    public enum AbilityTarget
     {
-        currentAbilityCooldown = abilityCooldown;
+        Self,
+        Actor,
+        Point
     }
 }

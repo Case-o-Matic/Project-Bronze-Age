@@ -51,15 +51,17 @@
      <Compile Include="Assets\Scripts\Actor.cs" />
      <Compile Include="Assets\Scripts\AttributeType.cs" />
      <Compile Include="Assets\Scripts\Buff.cs" />
-     <Compile Include="Assets\Scripts\BuffEffect.cs" />
+     <Compile Include="Assets\Scripts\Effect.cs" />
+     <Compile Include="Assets\Scripts\EffectAffection.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\MovableActor.cs" />
+     <Compile Include="Assets\Scripts\LiveActor.cs" />
      <Compile Include="Assets\Scripts\NpcActor.cs" />
      <Compile Include="Assets\Scripts\PlayerActor.cs" />
      <Compile Include="Assets\Scripts\Quest.cs" />
      <Compile Include="Assets\Scripts\StaticActor.cs" />
      <Compile Include="Assets\Scripts\Systems\CameraSystem.cs" />
+     <Compile Include="Assets\Scripts\Systems\ResourceSystem.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -149,9 +151,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="ProjectBronzeAge.Central">
- <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Central.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
