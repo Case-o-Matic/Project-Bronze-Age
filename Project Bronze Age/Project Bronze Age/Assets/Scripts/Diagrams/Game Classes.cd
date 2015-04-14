@@ -24,14 +24,14 @@
   <Class Name="PlayerActor">
     <Position X="6.75" Y="13.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAACAAAAAAEAAAAAAABAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\PlayerActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NpcActor">
     <Position X="4.5" Y="13.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAEA=</HashCode>
+      <HashCode>AgQAAAAAAAAAgQAgAAAAAAAAAAAAAAAAAAACAAgAAEA=</HashCode>
       <FileName>Assets\Scripts\NpcActor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -66,7 +66,7 @@
   <Class Name="Ability" Collapsed="true">
     <Position X="9.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAgABAAAAAAAAAAAACAgIAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAIAAAAAAIAABAAABACAAAAAAAAgIAIAAAAA=</HashCode>
       <FileName>Assets\Scripts\Ability.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -85,15 +85,8 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAQRAQIBACAAAAAgABAAAAAAIBUAEAACAYgQAAABgAE=</HashCode>
+      <HashCode>AEQRAQIBACAIAYAgABABAAAAIBUAEAACCYgQQAQBgEE=</HashCode>
       <FileName>Assets\Scripts\LiveActor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Effect" Collapsed="true">
-    <Position X="12.75" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAgAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Effect.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="AttributeType" Collapsed="true">
@@ -101,13 +94,6 @@
     <TypeIdentifier>
       <HashCode>AAAgoAAAAAACBAAAABAAAAQgAAAAAAAAAAQAAAAAEAA=</HashCode>
       <FileName>Assets\Scripts\AttributeType.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="EffectAffection" Collapsed="true">
-    <Position X="11" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAgBAAAAAAAAAAAQAAQAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\EffectAffection.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

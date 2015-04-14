@@ -8,12 +8,12 @@ public class Ability : ScriptableObject
 {
     public string abilityName;
     public string abilityDescription;
-    public float abilityCooldown;
+    public float castTime, cooldown;
     public AbilityTarget target;
     public List<Effect> targetEffects;
-    public float currentAbilityCooldown;
+    public float currentCooldown;
 
-    public bool canUseAbility { get { return currentAbilityCooldown == 0; } }
+    public bool canUseAbility { get { return currentCooldown == 0; } }
 
     [Serializable]
     public enum AbilityTarget
