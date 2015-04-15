@@ -20,6 +20,8 @@ public class LiveActor : Actor
     private List<Effect> currentEffects;
     private Ability currentAbility;
 
+    public float totalMovementspeed { get { return attributes[AttributeType.BaseMovementspeed] + attributes[AttributeType.BonusMovementspeed]; } }
+
     public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
 
     public void ReceiveDamage(float damage, DamageType type, LiveActor dd)

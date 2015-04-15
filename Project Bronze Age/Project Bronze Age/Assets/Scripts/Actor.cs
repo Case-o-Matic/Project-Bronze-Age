@@ -68,8 +68,28 @@ public abstract class Actor : MonoBehaviour
             OnSerializeClientStream(stream);
     }
 
+
+    /*
+        Is this good?
+        Another attempt:
+
+        Server Data:
+        -Timestamp
+        -Position
+        -Rotation
+
+        Client buffers it and checks every frame:
+        if(currentClientTimestamp - interpolationTimeDelta < lastServerData.timestamp)
+        {
+            Apply the server data to the client actor
+        }
+
+        TODO: Check if this is right
+    */
     private void InterpolateTransform(Vector3 position, Quaternion rotation)
     {
+        // Is this really good?
+
         TransformState tState = new TransformState(position, rotation);
         transformStates.Push(tState);
 
@@ -84,7 +104,7 @@ public abstract class Actor : MonoBehaviour
     private struct TransformState
     {
         public Vector3 position;
-        public Quaternion rotation;
+        public Quaternion rotation; // Maybe we only need 
 
         public TransformState(Vector3 position, Quaternion rotation)
         {

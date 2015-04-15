@@ -10,20 +10,30 @@ public class PlayerActor : LiveActor
 
     protected override void Update()
     {
-        DoMove();
-        DoControl();
-
         base.Update();
     }
 
-    private void DoMove()
+    private void DoServerMove()
     {
-        horizontalMove = Input.GetAxis("Horizontal");
-        verticalMove = Input.GetAxis("Vertical");
+
     }
 
-    private void DoControl()
+    private void DoClientMove()
+    {
+        horizontalMove = Input.GetAxisRaw("Horizontal");
+        verticalMove = Input.GetAxisRaw("Vertical");
+    }
+
+    private void DoClientControl()
     {
 
+    }
+
+    private Vector3 PerformMoveByAxes()
+    {
+        Vector3 newDir = new Vector3(horizontalMove, 0, verticalMove);
+        newDir *= totalMovementspeed / 2;
+
+        return newDir;
     }
 }
