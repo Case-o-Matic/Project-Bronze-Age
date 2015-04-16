@@ -15,15 +15,19 @@ public class Effect
     public float attributeAdded;
     
     // ReceiveDamage
-    public float receiveDamage, receiveDamageIntervall, receiveDamageIntervallTime;
+    public float receiveDamage;
     public DamageType receiveDamageType;
 
+    // ReceiveHeal
+    public float receiveHeal;
+
     // ApplyBuffs/UnapplyBuffs
-    public string[] applyBuffs;
+    public Buff[] applyBuffs;
     public BuffType unapplyBuffsType;
 
     // Stun
     public bool stun;
+    public bool stunBefore;
 }
 
 [Serializable]
@@ -31,6 +35,7 @@ public enum EffectAffection
 {
     Attribute,
     ReceiveDamage,
+    ReceiveHeal,
     ApplyBuffs,
     UnapplyBuffs,
     Stun

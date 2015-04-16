@@ -10,7 +10,8 @@ public class Ability : ScriptableObject
     public string abilityDescription;
     public float castTime, cooldown;
     public AbilityTarget target;
-    public List<Effect> targetEffects;
+    public string appliedBuffOnInvoke;
+    public float targetPointRange;
     public float currentCooldown;
 
     public bool canUseAbility { get { return currentCooldown == 0; } }

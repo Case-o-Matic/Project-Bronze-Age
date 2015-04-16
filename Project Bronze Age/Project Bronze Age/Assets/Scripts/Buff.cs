@@ -10,9 +10,9 @@ public class Buff : ScriptableObject
     public string buffName;
     public string description;
     public BuffType type;
-    public float liveTime;
-    public bool hasLivetime, isRemovable, isDebuff;
-    public float currentLiveTime;
+    public float liveTime, effectInvokationIntervall;
+    public bool hasLivetime, isRemovable, isDebuff, hasInvokationIntervall;
+    public float currentLiveTime, currentEffectInvokationIntervall;
 
     public List<Effect> effects;
 }

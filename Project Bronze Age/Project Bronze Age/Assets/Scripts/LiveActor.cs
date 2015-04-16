@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class LiveActor : Actor
 {
-    public const float baseMaxHealthLevelMultiplier = 4.5f, baseMaxStaminaLevelMultiplier = 2.5f;
+    public const float baseMaxHealthLevelMultiplier = 4.5f, baseMaxStaminaLevelMultiplier = 2.5f, baseHealthRegenerationLevelMultiplier = 2, baseStaminaRegenerationLevelMultiplier = 2;
 
     public float baseMaxHealth, baseMaxStamina, baseHealthRegeneration, baseStaminaRegeneration, baseMovementspeed, baseArmor;
     public Dictionary<AttributeType, float> attributes;
@@ -20,6 +20,7 @@ public class LiveActor : Actor
     private List<Effect> currentEffects;
     private Ability currentAbility;
 
+    public float totalMaxHealth { get { return attributes[AttributeType.BaseMaxHealth] + attributes[AttributeType.BonusMaxHealth]; } }
     public float totalMovementspeed { get { return attributes[AttributeType.BaseMovementspeed] + attributes[AttributeType.BonusMovementspeed]; } }
 
     public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
@@ -78,6 +79,10 @@ public class LiveActor : Actor
             Debug.Log("You cannot use abilities if you are stunned or dead");
             return;
         }
+        if(currentAbility)
+        {
+            Debug.Log("Already casting a different ability: " + currentAbility.abilityName);
+        }
 
         if (abilities.Contains(ability))
         {
@@ -110,6 +115,16 @@ public class LiveActor : Actor
     public void ApplyBuff(string buff)
     {
         var newBuff = Instantiate<Buff>(Resources.Load<Buff>("Assets/Resources/Buffs/" + buff));
+        buffs.Add(newBuff);
+
+        foreach (var effect in newBuff.effects)
+        {
+            AddEffect(effect);
+        }
+    }
+    public void ApplyBuff(Buff buff)
+    {
+        var newBuff = Instantiate<Buff>(buff);
         buffs.Add(newBuff);
 
         foreach (var effect in newBuff.effects)
@@ -210,6 +225,10 @@ public class LiveActor : Actor
             }
         }
     }
+    private void UpdateEffects()
+    {
+
+    }
 
     private void OnDeath()
     {
@@ -229,7 +248,7 @@ public class LiveActor : Actor
                     attributes[effect.attribute] += effect.attributeAdded;
                     break;
                 case EffectAffection.ReceiveDamage:
-                    
+                    ReceiveDamage(effect.receiveDamage, effect.receiveDamageType, null);
                     break;
                 case EffectAffection.ApplyBuffs:
                     foreach (var buff in effect.applyBuffs)
@@ -245,6 +264,7 @@ public class LiveActor : Actor
                     }
                     break;
                 case EffectAffection.Stun:
+                    effect.stunBefore = isStunned;
                     Stun(effect.stun);
                     break;
             }
@@ -258,6 +278,11 @@ public class LiveActor : Actor
             {
                 case EffectAffection.Attribute:
                     attributes[effect.attribute] -= effect.attributeAdded;
+                    break;
+
+                case EffectAffection.Stun:
+                    if (effect.stunBefore == isStunned)
+                        Stun(effect.stunBefore);
                     break;
             }
         }
@@ -275,14 +300,22 @@ public class LiveActor : Actor
         switch (a.target)
         {
             case Ability.AbilityTarget.Self:
-                
+                ApplyBuff(a.appliedBuffOnInvoke);
                 break;
             case Ability.AbilityTarget.Actor:
+                target.actor.ApplyBuff(a.appliedBuffOnInvoke);
                 break;
             case Ability.AbilityTarget.Point:
-                break;
-            default:
-                break;
+                    Collider[] cols = Physics.OverlapSphere(target.position, a.targetPointRange);
+                    foreach (var col in cols)
+                    {
+                        if (col.CompareTag("Actor"))
+                        {
+                            LiveActor affectedActor = col.GetComponent<LiveActor>();
+                            affectedActor.ApplyBuff(a.appliedBuffOnInvoke);
+                        }
+                    }
+            break;
         }
     }
 
