@@ -22,6 +22,12 @@ public class CameraSystem : MonoBehaviour
 
     public void SetTarget(LiveActor actortarget)
     {
+        if(actortarget == null)
+        {
+            target = null;
+            return;
+        }
+
         target = actortarget.transform;
     }
 
@@ -36,8 +42,8 @@ public class CameraSystem : MonoBehaviour
         var wantedRotationAngle = target.eulerAngles.y;
         var wantedHeight = target.position.y + height;
 
-        var currentRotationAngle = transform.eulerAngles.y;
-        var currentHeight = transform.position.y;
+        var currentRotationAngle = cameraTransform.eulerAngles.y;
+        var currentHeight = cameraTransform.position.y;
 
         // Damp the rotation around the y-axis
         currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
@@ -54,7 +60,7 @@ public class CameraSystem : MonoBehaviour
         cameraTransform.position -= currentRotation * Vector3.forward * distance;
 
         // Set the height of the camera
-        cameraTransform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
+        cameraTransform.position = new Vector3(cameraTransform.position.x, currentHeight, cameraTransform.position.z);
 
         // Always look at the target
         cameraTransform.LookAt(target);
