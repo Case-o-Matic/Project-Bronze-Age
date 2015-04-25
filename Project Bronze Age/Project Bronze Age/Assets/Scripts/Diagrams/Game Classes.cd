@@ -11,63 +11,63 @@
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>CAwBAAAAAiJAAABgABACAAAAAAAAAAAAAACEAAAAAEA=</HashCode>
-      <FileName>Assets\Scripts\Actor.cs</FileName>
+      <FileName>Assets\Scripts\World\Actor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StaticActor">
     <Position X="2.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\StaticActor.cs</FileName>
+      <FileName>Assets\Scripts\World\StaticActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerActor">
-    <Position X="6.75" Y="16.5" Width="1.5" />
+    <Position X="6.75" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQQAAgAAAAAAAAAAAACAEABAAAAEAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\PlayerActor.cs</FileName>
+      <FileName>Assets\Scripts\World\PlayerActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NpcActor">
-    <Position X="4.5" Y="16.5" Width="1.5" />
+    <Position X="4.5" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgQAAAAAAAAAgQAgAAAAAAAAAAAAAAAAAAACAAgAAEA=</HashCode>
-      <FileName>Assets\Scripts\NpcActor.cs</FileName>
+      <FileName>Assets\Scripts\World\NpcActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Inventory" Collapsed="true">
     <Position X="12.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAgAAAAAgAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Inventory.cs</FileName>
+      <FileName>Assets\Scripts\World\Inventory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Quest" Collapsed="true">
     <Position X="11" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Quest.cs</FileName>
+      <FileName>Assets\Scripts\World\Quest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Item" Collapsed="true">
     <Position X="9.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Item.cs</FileName>
+      <FileName>Assets\Scripts\World\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Buff" Collapsed="true">
     <Position X="11" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAgEAAAQAQAIAAAAAAEAAABAIAAAAAAAAAAIAA=</HashCode>
-      <FileName>Assets\Scripts\Buff.cs</FileName>
+      <HashCode>AAAAAAAgEBAAQAQAIAAAAAAFAAABAIAAAAAAIAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\World\Buff.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ability" Collapsed="true">
     <Position X="9.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAIAABAAABACAAAAAAAAgIAIAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Ability.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAAAIAABAAABACAAAAAAACgIAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\Ability.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LiveActor">
@@ -85,15 +85,15 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEYRAQIBACgIAYAAABABAICEIBUAUggCCagQQAQBgEE=</HashCode>
-      <FileName>Assets\Scripts\LiveActor.cs</FileName>
+      <HashCode>AEZRAQIBACgIAYAAAFABAICEIBUAUggCCagQQAQBgEE=</HashCode>
+      <FileName>Assets\Scripts\World\LiveActor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="AttributeType" Collapsed="true">
     <Position X="9.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgoAAAgEACRAAAABAAAAQgAgAAAAAAAAQAAAAAEAA=</HashCode>
-      <FileName>Assets\Scripts\AttributeType.cs</FileName>
+      <FileName>Assets\Scripts\World\AttributeType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
