@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public abstract class Ability : ScriptableObject
 {
     public string abilityName;
     public string abilityDescription;
     public float castTime, cooldown;
     public AbilityTarget target;
-    public string appliedBuffOnInvoke;
-    public float targetPointRange;
     public float currentCooldown;
+    public bool isChanneling;
 
     public bool canUseAbility { get { return currentCooldown == 0; } }
+
+    public virtual void OnUse(LiveActor user)
+    {
+
+    }
 
     [Serializable]
     public enum AbilityTarget

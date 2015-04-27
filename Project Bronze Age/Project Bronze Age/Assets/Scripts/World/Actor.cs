@@ -11,9 +11,6 @@ public abstract class Actor : MonoBehaviour
     public string permanentId = Guid.NewGuid().ToString();
     public string actorName;
 
-    // References
-    public NetworkView networkViewReference;
-
     private Stack<TransformState> transformStates;
 
     protected virtual void Awake()

@@ -230,6 +230,9 @@
  <Reference Include="ProjectBronzeAge.Core">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Core.dll</HintPath>
  </Reference>
+ <Reference Include="protobuf-net">
+ <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/protobuf-net.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>

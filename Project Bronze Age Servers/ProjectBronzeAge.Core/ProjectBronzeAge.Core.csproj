@@ -42,8 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameUserInfo.cs" />
-    <Compile Include="GameUserMessage.cs" />
+    <Compile Include="Communication\Data\ClientPackages.cs" />
+    <Compile Include="Communication\Data\Enums.cs" />
+    <Compile Include="Communication\Data\ServerPackages.cs" />
+    <Compile Include="Communication\IPackage.cs" />
+    <Compile Include="Communication\PackageConverter.cs" />
+    <Compile Include="Communication\Play\ClientPackages.cs" />
+    <Compile Include="Communication\Play\Enums.cs" />
+    <Compile Include="Communication\Play\ServerPackages.cs" />
+    <Compile Include="GameDataUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

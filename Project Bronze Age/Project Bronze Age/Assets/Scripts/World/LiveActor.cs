@@ -9,13 +9,16 @@ public class LiveActor : Actor
 {
     public const float baseMaxHealthLevelMultiplier = 4.5f, baseMaxStaminaLevelMultiplier = 2.5f, baseHealthRegenerationLevelMultiplier = 2, baseStaminaRegenerationLevelMultiplier = 2;
 
+    public List<string> startBuffs, startAbilities, startItems;
     public float baseMaxHealth, baseMaxStamina, baseHealthRegeneration, baseStaminaRegeneration, baseMovementspeed, baseArmor;
     public Dictionary<AttributeType, float> attributes;
     public List<Buff> buffs;
     public Level level;
     public Inventory inventory;
     public List<Ability> abilities;
-    public bool isPoisonImmune, isImmortal, isStunned; // TODO: Buff-stacking of the stuns wont work properly, one isStunned change will block out the others, change this!
+    public bool isPoisonImmune, isImmortal, isStunned;
+
+    // public ActorResourceInfo resourceInfo;
 
     private List<Effect> currentEffects;
     private Ability currentAbility;
@@ -153,6 +156,9 @@ public class LiveActor : Actor
     protected override void Awake()
     {
         InitializeAttributes();
+        //ResourceSystem.Instance.ApplyResourceData(this);
+        currentEffects = new List<Effect>();
+
         base.Awake();
     }
     protected override void Update()
@@ -164,6 +170,21 @@ public class LiveActor : Actor
         base.Update();
     }
 
+    private void InitializeStartValues()
+    {
+        foreach (var startBuff in startBuffs)
+        {
+            ApplyBuff(startBuff);
+        }
+        foreach (var startAbility in startAbilities)
+        {
+            AddAbility(startAbility);
+        }
+        foreach (var startItem in startItems)
+        {
+            inventory.AddItem(startItem);
+        }
+    }
     private void InitializeAttributes()
     {
         attributes = new Dictionary<AttributeType, float>();
@@ -188,7 +209,6 @@ public class LiveActor : Actor
         attributes.Add(AttributeType.BaseMovementspeed, baseMovementspeed);
         attributes.Add(AttributeType.BonusMovementspeed, baseMovementspeed);
     }
-
     private void UpdateAttributes()
     {
         attributes[AttributeType.BaseMaxHealth] = baseMaxHealth + (level.currentLevel * baseMaxHealthLevelMultiplier);
@@ -292,29 +312,16 @@ public class LiveActor : Actor
     {
         yield return new WaitForSeconds(currentAbility.castTime);
 
-        // TODO: Invoke the ability
         Ability a = currentAbility;
         currentAbility.currentCooldown = currentAbility.cooldown;
 
-        // Apply the effects
         switch (a.target)
         {
             case Ability.AbilityTarget.Self:
-                ApplyBuff(a.appliedBuffOnInvoke);
                 break;
             case Ability.AbilityTarget.Actor:
-                target.actor.ApplyBuff(a.appliedBuffOnInvoke);
                 break;
             case Ability.AbilityTarget.Point:
-                    Collider[] cols = Physics.OverlapSphere(target.position, a.targetPointRange);
-                    foreach (var col in cols)
-                    {
-                        if (col.CompareTag("Actor"))
-                        {
-                            LiveActor affectedActor = col.GetComponent<LiveActor>();
-                            affectedActor.ApplyBuff(a.appliedBuffOnInvoke);
-                        }
-                    }
             break;
         }
     }
@@ -342,11 +349,18 @@ public class LiveActor : Actor
             }
         }
     }
+
     [Serializable]
     public struct AbilityTarget
     {
         public Vector3 position;
         public LiveActor actor;
+    }
+    [Serializable]
+    public struct ActorResourceInfo
+    {
+        public string resourceName;
+        public bool applyResource;
     }
 }
 

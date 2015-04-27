@@ -10,14 +10,14 @@ using ProjectBronzeAge.Core;
 
 public class UserSystem : MonoBehaviour
 {
-    public const int gameServerClientPort = 42002, gameServerServerPort = 42001;
+    public const int gameServerClientPort = 42002;
 
     public IPEndPoint gameServerEndPoint;
     public GameServerConnectionMode gameServerConnectionMode = GameServerConnectionMode.StartUp;
 
     public string caseomaticUsername;
     public GameUserInfo userInfo;
-    public string projectBronzeAgeUserId; // Or is it a guid?
+    public string projectBronzeAgeUserId;
 
     private Socket socket;
     private Thread receiveThread;
@@ -85,17 +85,38 @@ public class UserSystem : MonoBehaviour
                 byte[] msgBuffer = new byte[0x800];
                 socket.Receive(msgBuffer);
 
-                string msg = string.Empty;
-                using (var msgStream = new MemoryStream(msgBuffer))
+                GameUserMessage message = GameUserMessage.ToMessage(msgBuffer);
+                switch (message.type)
                 {
-                    msg = Encoding.ASCII.GetString(msgStream.ToArray());
-                }
+                    case GameUserMessage.GameUserMessageType.Login:
 
-                if(msg != string.Empty)
-                {
-                    
+                        break;
+                    case GameUserMessage.GameUserMessageType.Logout:
+
+                        break;
+                    case GameUserMessage.GameUserMessageType.GetUserData:
+
+                        break;
+                    case GameUserMessage.GameUserMessageType.SetUserData:
+
+                        break;
+                    default:
+                        break;
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+            gameServerConnectionMode = GameServerConnectionMode.Aborted;
+        }
+    }
+    private void SendGameServerMessage(GameUserMessage message)
+    {
+        try
+        {
+            byte[] msgInBytes = GameUserMessage.ToBytes(message);
+            socket.Send(msgInBytes);
         }
         catch (Exception ex)
         {
@@ -107,7 +128,7 @@ public class UserSystem : MonoBehaviour
     {
         if(socket != null)
         {
-
+            SendGameServerMessage(new GameUserMessage(GameUserMessage.GameUserMessageType.Logout, projectBronzeAgeUserId));
 
             socket.Close(150);
             socket = null;

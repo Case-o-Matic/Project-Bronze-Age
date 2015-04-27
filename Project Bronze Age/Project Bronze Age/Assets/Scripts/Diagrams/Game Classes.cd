@@ -10,7 +10,7 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>CAwBAAAAAiJAAABgABACAAAAAAAAAAAAAACEAAAAAEA=</HashCode>
+      <HashCode>CAwBAAAAAiJAAABgABACAAAAAAAAAAAAAACAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\World\Actor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -81,6 +81,11 @@
       <Struct Name="LiveActor.AbilityTarget" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>Assets\Scripts\LiveActor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="LiveActor.ActorResourceInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\World\LiveActor.cs</NewMemberFileName>
         </TypeIdentifier>
       </Struct>
     </NestedTypes>

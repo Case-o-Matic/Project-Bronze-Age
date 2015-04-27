@@ -27,6 +27,7 @@ public class Effect
 
     // Stun
     public bool stun;
+    [HideInInspector]
     public bool stunBefore;
 }
 
