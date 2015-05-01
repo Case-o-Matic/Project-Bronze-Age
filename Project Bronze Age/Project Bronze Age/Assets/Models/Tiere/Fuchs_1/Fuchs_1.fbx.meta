@@ -1,0 +1,124 @@
+fileFormatVersion: 2
+guid: 55a3f1742a016874a83e79376c6f0929
+timeCreated: 1430508390
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Bauch_Bone
+    100004: Camera
+    100006: Cube
+    100008: //RootNode
+    100010: "Fu\xDF_lh_Bone"
+    100012: "Fu\xDF_lv_Bone"
+    100014: "Fu\xDF_rh_Bone"
+    100016: "Fu\xDF_rv_Bone"
+    100018: "Ges\xE4\xDF_Bone"
+    100020: Hals_Bone
+    100022: "H\xFCfte_hr_Bone"
+    100024: "H\xFCfte_lh_Bone"
+    100026: Kopf_Bone
+    100028: Oberschenkel_lh_Bone
+    100030: Oberschenkel_lv_Bone
+    100032: Oberschenkel_rh_Bone
+    100034: Oberschenkel_rv_Bone
+    100036: Plane
+    100038: Plane.001
+    100040: Schwanz_Bone
+    100042: Schwanzspitze_Bone
+    400000: Armature
+    400002: Bauch_Bone
+    400004: Camera
+    400006: Cube
+    400008: //RootNode
+    400010: "Fu\xDF_lh_Bone"
+    400012: "Fu\xDF_lv_Bone"
+    400014: "Fu\xDF_rh_Bone"
+    400016: "Fu\xDF_rv_Bone"
+    400018: "Ges\xE4\xDF_Bone"
+    400020: Hals_Bone
+    400022: "H\xFCfte_hr_Bone"
+    400024: "H\xFCfte_lh_Bone"
+    400026: Kopf_Bone
+    400028: Oberschenkel_lh_Bone
+    400030: Oberschenkel_lv_Bone
+    400032: Oberschenkel_rh_Bone
+    400034: Oberschenkel_rv_Bone
+    400036: Plane
+    400038: Plane.001
+    400040: Schwanz_Bone
+    400042: Schwanzspitze_Bone
+    2300000: Plane
+    2300002: Plane.001
+    3300000: Plane
+    3300002: Plane.001
+    4300000: Cube
+    4300002: Plane.001
+    4300004: Plane
+    7400000: Armature|angreifen
+    7400002: Armature|gehen
+    7400004: Armature|Idle_standing
+    7400006: Armature|laufen
+    7400008: Armature|sterben
+    7400010: Cube|gehen
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
