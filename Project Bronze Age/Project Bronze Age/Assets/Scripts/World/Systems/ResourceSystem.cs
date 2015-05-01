@@ -33,7 +33,7 @@ public class ResourceSystem : MonoBehaviour
                                 actor.baseMaxHealth = float.Parse(resourceDataItem.data.ToString());
                                 break;
                             case "BaseMaxStamina":
-                                actor.baseMaxStamina = float.Parse(resourceDataItem.data.ToString());
+                                actor.baseMaxMana = float.Parse(resourceDataItem.data.ToString());
                                 break;
                             case "BaseMovementspeed":
                                 actor.baseMovementspeed = float.Parse(resourceDataItem.data.ToString());

@@ -10,10 +10,10 @@ using ProjectBronzeAge.Core;
 
 public class UserSystem : MonoBehaviour
 {
-    public const int gameServerClientPort = 42002;
+    public const int gameDataServerClientPort = 42002;
 
-    public IPEndPoint gameServerEndPoint;
-    public GameServerConnectionMode gameServerConnectionMode = GameServerConnectionMode.StartUp;
+    public IPEndPoint gameDataServerEndPoint;
+    public GameDataServerConnectionMode gameDataServerConnectionMode = GameDataServerConnectionMode.StartUp;
 
     public string caseomaticUsername;
     public GameUserInfo userInfo;
@@ -34,11 +34,11 @@ public class UserSystem : MonoBehaviour
     {
         try
         {
-            gameServerConnectionMode = GameServerConnectionMode.Initializing;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Initializing;
 
             string[] args = Environment.GetCommandLineArgs();
-            caseomaticUsername = args[0];
-            projectBronzeAgeUserId = args[1];
+            caseomaticUsername = args[1];
+            projectBronzeAgeUserId = args[2];
 
             //using (var pipe = new NamedPipeClientStream("CaseoMaticClient Game-Pipeserver", "Game-Pipeclient"))
             //{
@@ -53,18 +53,18 @@ public class UserSystem : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogException(ex);
-            gameServerConnectionMode = GameServerConnectionMode.Aborted;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
     private void ConnectToGameServer()
     {
         try
         {
-            gameServerEndPoint = new IPEndPoint(IPAddress.Loopback, 42001); // Findout the game server endpoint
+            gameDataServerEndPoint = new IPEndPoint(IPAddress.Loopback, 42001); // Findout the game server endpoint
 
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(new IPEndPoint(IPAddress.Any, gameServerClientPort));
-            socket.Connect(gameServerEndPoint);
+            socket.Bind(new IPEndPoint(IPAddress.Any, gameDataServerClientPort));
+            socket.Connect(gameDataServerEndPoint);
 
             receiveThread = new Thread(ReceiveGameServerMessages);
             receiveThread.Start();
@@ -72,14 +72,14 @@ public class UserSystem : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogException(ex);
-            gameServerConnectionMode = GameServerConnectionMode.Aborted;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
     private void ReceiveGameServerMessages()
     {
         try
         {
-            gameServerConnectionMode = GameServerConnectionMode.Running;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Running;
             while (socket != null)
             {
                 byte[] msgBuffer = new byte[0x800];
@@ -108,7 +108,7 @@ public class UserSystem : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogException(ex);
-            gameServerConnectionMode = GameServerConnectionMode.Aborted;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
     private void SendGameServerMessage(GameUserMessage message)
@@ -121,7 +121,7 @@ public class UserSystem : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogException(ex);
-            gameServerConnectionMode = GameServerConnectionMode.Aborted;
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
     private void CloseGameServerConnection()
@@ -137,7 +137,7 @@ public class UserSystem : MonoBehaviour
 }
 
 [Serializable]
-public enum GameServerConnectionMode
+public enum GameDataServerConnectionMode
 {
     StartUp,
     Initializing,

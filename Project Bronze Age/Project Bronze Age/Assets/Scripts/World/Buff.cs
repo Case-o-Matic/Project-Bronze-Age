@@ -15,6 +15,18 @@ public class Buff : ScriptableObject
     public float currentLiveTime, currentEffectInvokationIntervall;
 
     public List<Effect> effects;
+
+    public void Update()
+    {
+        if (hasLivetime && currentLiveTime > 0)
+        {
+            currentLiveTime -= Time.deltaTime;
+            if (currentLiveTime <= 0)
+            {
+                currentLiveTime = 0;
+            }
+        }
+    }
 }
 
 [Serializable]

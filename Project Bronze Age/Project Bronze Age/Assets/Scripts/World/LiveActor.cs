@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class LiveActor : Actor
 {
-    public const float baseMaxHealthLevelMultiplier = 4.5f, baseMaxStaminaLevelMultiplier = 2.5f, baseHealthRegenerationLevelMultiplier = 2, baseStaminaRegenerationLevelMultiplier = 2;
+    public const float baseMaxHealthLevelMultiplier = 4.5f, baseMaxManaLevelMultiplier = 2.5f, baseHealthRegenerationLevelMultiplier = 2, baseManaRegenerationLevelMultiplier = 2;
 
     public List<string> startBuffs, startAbilities, startItems;
-    public float baseMaxHealth, baseMaxStamina, baseHealthRegeneration, baseStaminaRegeneration, baseMovementspeed, baseArmor;
+    public float baseMaxHealth, baseMaxMana, baseHealthRegeneration, baseManaRegeneration, baseMovementspeed, baseArmor;
     public Dictionary<AttributeType, float> attributes;
     public List<Buff> buffs;
     public Level level;
@@ -75,24 +75,28 @@ public class LiveActor : Actor
         attributes[AttributeType.CurrentHealth] += amount;
     }
 
-    public void UseAbility(Ability ability, AbilityTarget target)
+    public void UseAbility(Ability ability, Vector3 targetpos, LiveActor targetactor)
     {
         if (isStunned || isDead)
         {
             Debug.Log("You cannot use abilities if you are stunned or dead");
             return;
         }
-        if(currentAbility)
+        if(currentAbility != null)
         {
             Debug.Log("Already casting a different ability: " + currentAbility.abilityName);
         }
 
         if (abilities.Contains(ability))
         {
-            if (ability.canUseAbility)
+            if (ability.canUseAbility && attributes[AttributeType.CurrentMana] >= ability.manaCost)
             {
                 currentAbility = ability;
-                StartCoroutine(InvokeAbility(target)); // Play cast time animation while the cast time fades out
+                currentAbility.Invoke(new AbilityInvokation(targetpos, targetactor, this));
+            }
+            else
+            {
+                Debug.Log("You cannot use this ability (reason: cooldown/mana)");
             }
         }
     }
@@ -189,7 +193,7 @@ public class LiveActor : Actor
     {
         attributes = new Dictionary<AttributeType, float>();
         attributes.Add(AttributeType.CurrentHealth, baseMaxHealth);
-        attributes.Add(AttributeType.CurrentStamina, baseMaxStamina);
+        attributes.Add(AttributeType.CurrentMana, baseMaxMana);
 
         attributes.Add(AttributeType.BaseMaxHealth, baseMaxHealth);
         attributes.Add(AttributeType.BonusMaxHealth, 0);
@@ -197,11 +201,11 @@ public class LiveActor : Actor
         attributes.Add(AttributeType.BaseHealthRegeneration, baseHealthRegeneration);
         attributes.Add(AttributeType.BonusHealthRegeneration, 0);
 
-        attributes.Add(AttributeType.BaseMaxStamina, baseMaxStamina);
-        attributes.Add(AttributeType.BaseMaxStamina, 0);
+        attributes.Add(AttributeType.BaseMaxMana, baseMaxMana);
+        attributes.Add(AttributeType.BonusMaxMana, 0);
 
-        attributes.Add(AttributeType.BaseStaminaRegeneration, baseMaxStaminaLevelMultiplier);
-        attributes.Add(AttributeType.BonusStaminaRegeneration, 0);
+        attributes.Add(AttributeType.BaseManaRegeneration, baseMaxManaLevelMultiplier);
+        attributes.Add(AttributeType.BonusManaRegeneration, 0);
 
         attributes.Add(AttributeType.BaseArmor, baseArmor);
         attributes.Add(AttributeType.BonusArmor, baseArmor);
@@ -212,42 +216,23 @@ public class LiveActor : Actor
     private void UpdateAttributes()
     {
         attributes[AttributeType.BaseMaxHealth] = baseMaxHealth + (level.currentLevel * baseMaxHealthLevelMultiplier);
-        attributes[AttributeType.BaseMaxStamina] = baseMaxStamina + (level.currentLevel * baseMaxStaminaLevelMultiplier);
+        attributes[AttributeType.BaseMaxMana] = baseMaxMana + (level.currentLevel * baseMaxManaLevelMultiplier);
     }
     private void UpdateBuffs()
     {
         for (int i = 0; i < buffs.Count; i++)
         {
-            Buff buff = buffs[i];
-            if (buff.hasLivetime && buff.currentLiveTime > 0)
-            {
-                buff.currentLiveTime -= Time.deltaTime;
-                if (buff.currentLiveTime <= 0)
-                {
-                    buff.currentLiveTime = 0;
-                    UnapplyBuff(buff);
-                }
-            }
+            buffs[i].Update();
+            if (buffs[i].currentLiveTime <= 0)
+                UnapplyBuff(buffs[i]);
         }
     }
     private void UpdateAbilities()
     {
         for (int i = 0; i < abilities.Count; i++)
         {
-            Ability ability = abilities[i];
-            if(ability.currentCooldown > 0)
-            {
-                ability.currentCooldown -= Time.deltaTime;
-                if (ability.currentCooldown <= 0)
-                {
-                    ability.currentCooldown = 0;
-                }
-            }
+            abilities[i].Update();
         }
-    }
-    private void UpdateEffects()
-    {
-
     }
 
     private void OnDeath()
@@ -308,24 +293,6 @@ public class LiveActor : Actor
         }
     }
 
-    private IEnumerator InvokeAbility(AbilityTarget target)
-    {
-        yield return new WaitForSeconds(currentAbility.castTime);
-
-        Ability a = currentAbility;
-        currentAbility.currentCooldown = currentAbility.cooldown;
-
-        switch (a.target)
-        {
-            case Ability.AbilityTarget.Self:
-                break;
-            case Ability.AbilityTarget.Actor:
-                break;
-            case Ability.AbilityTarget.Point:
-            break;
-        }
-    }
-
     [Serializable]
     public class Level
     {
@@ -349,13 +316,6 @@ public class LiveActor : Actor
             }
         }
     }
-
-    [Serializable]
-    public struct AbilityTarget
-    {
-        public Vector3 position;
-        public LiveActor actor;
-    }
     [Serializable]
     public struct ActorResourceInfo
     {
@@ -364,6 +324,7 @@ public class LiveActor : Actor
     }
 }
 
+[Serializable]
 public enum DamageType
 {
     Physical,

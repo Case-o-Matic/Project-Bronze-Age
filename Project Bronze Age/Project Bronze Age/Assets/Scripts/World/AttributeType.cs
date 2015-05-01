@@ -4,7 +4,7 @@
 public enum AttributeType
 {
     CurrentHealth,
-    CurrentStamina,
+    CurrentMana,
 
     BaseMaxHealth,
     BonusMaxHealth,
@@ -12,11 +12,11 @@ public enum AttributeType
     BaseHealthRegeneration,
     BonusHealthRegeneration,
 
-    BaseMaxStamina,
-    BonusMaxStamina,
+    BaseMaxMana,
+    BonusMaxMana,
 
-    BaseStaminaRegeneration,
-    BonusStaminaRegeneration,
+    BaseManaRegeneration,
+    BonusManaRegeneration,
 
     BaseMovementspeed,
     BonusMovementspeed,
