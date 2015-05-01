@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Actor">
+    <Position X="4.25" Y="1" Width="1.75" />
+    <NestedTypes>
+      <Struct Name="Actor.TransformState">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Actor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAwBAAAAAiJAAABgABACAAAAAAAAAAAAAACAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\World\Actor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StaticActor">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\StaticActor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerActor">
+    <Position X="6.75" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAgAAAAAAAAAAAACAEABAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\PlayerActor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NpcActor">
+    <Position X="4.5" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAEA=</HashCode>
+      <FileName>Assets\Scripts\World\NpcActor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Inventory" Collapsed="true">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAgAAAAAgAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Quest" Collapsed="true">
+    <Position X="11" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\Quest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item" Collapsed="true">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAIAAAAAAAkAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buff" Collapsed="true">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgEBAAQAQAIAAAAAAFAAABAIAAAAAAIAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\World\Buff.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ability" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgCAAAIAIAAAAIAABAAABACAkAAACAAoICAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\World\Ability.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LiveActor">
+    <Position X="5.5" Y="6" Width="1.5" />
+    <NestedTypes>
+      <Class Name="LiveActor.Level" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\LiveActor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Struct Name="LiveActor.ActorResourceInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\World\LiveActor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgYRAQYBACgIgYAgAFABAICEIBUAUggCCakQQAQAgEM=</HashCode>
+      <FileName>Assets\Scripts\World\LiveActor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AttributeType" Collapsed="true">
+    <Position X="9.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAACCRAAAAAAAAIQgAgAIAAAAAAQIAAAAMAA=</HashCode>
+      <FileName>Assets\Scripts\World\AttributeType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
