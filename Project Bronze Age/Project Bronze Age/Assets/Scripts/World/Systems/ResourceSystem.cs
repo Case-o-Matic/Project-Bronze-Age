@@ -70,7 +70,7 @@ public class ResourceSystem : MonoBehaviour
 
     private ResourceData GetResourceData(LiveActor actor)
     {
-        var resfilepath = @"resources\" + actor.permanentId + ".xml"; // TODO: Use the ActorResourceInfo thats ready to implement in the actor-class
+        var resfilepath = @"resources\" + ".xml"; // TODO: Use the ActorResourceInfo thats ready to implement in the actor-class
         var xmlReader = XmlReader.Create(resfilepath);
 
         return (ResourceData)xmlSerializer.Deserialize(xmlReader);

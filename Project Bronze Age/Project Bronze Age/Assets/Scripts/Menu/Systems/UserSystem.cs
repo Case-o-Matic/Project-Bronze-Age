@@ -22,7 +22,7 @@ public class UserSystem : MonoBehaviour
     private Socket socket;
     private Thread receiveThread;
 
-    void Awake()
+    void Start()
     {
         DontDestroyOnLoad(gameObject);
 
@@ -39,25 +39,18 @@ public class UserSystem : MonoBehaviour
             string[] args = Environment.GetCommandLineArgs();
             caseomaticUsername = args[1];
             projectBronzeAgeUserId = args[2];
-
-            //using (var pipe = new NamedPipeClientStream("CaseoMaticClient Game-Pipeserver", "Game-Pipeclient"))
-            //{
-            //    pipe.Connect();
-            //    using (var reader = new StreamReader(pipe))
-            //    {
-            //        username = reader.ReadLine();
-            //        projectBronzeAgeGameId = int.Parse(reader.ReadLine());
-            //    }
-            //}
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Debug.LogException(ex);
+            Debug.LogError("The application got started without commandline arguments. Aborting...");
             gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
     private void ConnectToGameServer()
     {
+        if (gameDataServerConnectionMode == GameDataServerConnectionMode.Aborted)
+            return;
+
         try
         {
             gameDataServerEndPoint = new IPEndPoint(IPAddress.Loopback, 42001); // Findout the game server endpoint
@@ -79,8 +72,8 @@ public class UserSystem : MonoBehaviour
     {
         try
         {
-            gameDataServerConnectionMode = GameDataServerConnectionMode.Running;
-            while (socket != null)
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Connected;
+            while (gameDataServerConnectionMode != GameDataServerConnectionMode.Aborted)
             {
                 byte[] msgBuffer = new byte[0x800];
                 socket.Receive(msgBuffer);
@@ -132,6 +125,8 @@ public class UserSystem : MonoBehaviour
 
             socket.Close(150);
             socket = null;
+
+            gameDataServerConnectionMode = GameDataServerConnectionMode.Aborted;
         }
     }
 }
@@ -141,6 +136,6 @@ public enum GameDataServerConnectionMode
 {
     StartUp,
     Initializing,
-    Running,
+    Connected,
     Aborted
 }

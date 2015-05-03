@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-[Serializable()]
+[Serializable]
 public class Inventory
 {
+    public int gold;
     [SerializeField]
     private List<Item> items;
 
@@ -23,12 +24,10 @@ public class Inventory
             // Apply the effects of the item to the owning actor
         }
     }
-
-    // Not needed
-    //public void RemoveItem(string name)
-    //{
-
-    //}
+    public void AddItem(int id)
+    {
+        // TODO: Use real ID-system for items
+    }
 
     public void RemoveItem(Item item)
     {
@@ -38,9 +37,25 @@ public class Inventory
             items.Remove(item);
         }
     }
+    public void RemoveItem(int id)
+    {
+
+    }
 
     public Item FindItem(string name)
     {
         return items.Find((i) => { if (i.itemName == name) return true; else return false; });
+    }
+
+    // is this needed?
+    public bool AddGold(int value)
+    {
+        gold += value;
+        if (gold < 0)
+        {
+            gold = 0;
+            return false;
+        }
+        return true;
     }
 }

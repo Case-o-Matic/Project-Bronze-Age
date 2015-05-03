@@ -11,11 +11,14 @@ public class LiveActor : Actor
 
     public List<string> startBuffs, startAbilities, startItems;
     public float baseMaxHealth, baseMaxMana, baseHealthRegeneration, baseManaRegeneration, baseMovementspeed, baseArmor;
+    public Transform bodyHeadTransform, bodyCenterTransform, bodyLeftHandTransform, bodyRightHandTransform, bodyLeftFootTransform, bodyRightFootTransform;
     public Dictionary<AttributeType, float> attributes;
     public List<Buff> buffs;
     public Level level;
     public Inventory inventory;
     public List<Ability> abilities;
+
+    // Controlled by buffs
     public bool isPoisonImmune, isImmortal, isStunned;
 
     // public ActorResourceInfo resourceInfo;
@@ -75,7 +78,7 @@ public class LiveActor : Actor
         attributes[AttributeType.CurrentHealth] += amount;
     }
 
-    public void UseAbility(Ability ability, Vector3 targetpos, LiveActor targetactor)
+    public void UseAbility(int abilityid, Vector3 targetpos, LiveActor targetactor)
     {
         if (isStunned || isDead)
         {
@@ -87,6 +90,7 @@ public class LiveActor : Actor
             Debug.Log("Already casting a different ability: " + currentAbility.abilityName);
         }
 
+        var ability = abilities[abilityid]; // TODO: Use a real ID-system for abilities
         if (abilities.Contains(ability))
         {
             if (ability.canUseAbility && attributes[AttributeType.CurrentMana] >= ability.manaCost)
@@ -174,6 +178,36 @@ public class LiveActor : Actor
         base.Update();
     }
 
+    protected override void OnReceiveClientRequest(ClientRequest rq)
+    {
+        if(rq.invokeAbilityId != 0)
+        {
+            var ability = abilities[0]; // Change this
+            // Use the ability
+        }
+
+        base.OnReceiveClientRequest(rq);
+    }
+    protected override void OnApplyServerCommand(ServerCommand cmd, float timestamp)
+    {
+        if(cmd.invokeAbilityId != 0)
+            UseAbility(cmd.invokeAbilityId, cmd.invokeAbilityTargetPos, this); // TODO: Use real ID-system for actors.
+        if (cmd.pickupItemToInvId != 0)
+            inventory.AddItem(cmd.pickupItemToInvId);
+        if(cmd.removeItemFromInvId != 0)
+            inventory.RemoveItem(cmd.removeItemFromInvId);
+        if (cmd.interactWithActorId != 0)
+        { /*interactionActor.Interact(this);*/ } // TODO: Use real ID-system for actors (interaction)
+        if(cmd.currentGold != 0)
+            inventory.AddGold(cmd.currentGold);
+        if (cmd.currentLevel != 0)
+            level.currentLevel = cmd.currentLevel;
+        if (cmd.currentXp != 0)
+            level.AddXp(cmd.currentXp);
+
+        base.OnApplyServerCommand(cmd, timestamp);
+    }
+
     private void InitializeStartValues()
     {
         foreach (var startBuff in startBuffs)
@@ -247,49 +281,56 @@ public class LiveActor : Actor
     {
         if(!currentEffects.Contains(effect))
         {
-            switch (effect.affects)
+            currentEffects.Add(effect);
+
+            GameObject effectObj1 = Instantiate<GameObject>(effect.gameObject);
+            GameObject effectObj2 = null;
+            if (effect.position != EffectPosition.Center || effect.position != EffectPosition.Head)
+                effectObj2 = Instantiate<GameObject>(effect.gameObject);
+
+            Transform effectObj1Parent = null, effectObj2Parent = null;
+            switch (effect.position)
             {
-                case EffectAffection.Attribute:
-                    attributes[effect.attribute] += effect.attributeAdded;
+                case EffectPosition.Head:
+                    effectObj1Parent = bodyHeadTransform;
                     break;
-                case EffectAffection.ReceiveDamage:
-                    ReceiveDamage(effect.receiveDamage, effect.receiveDamageType, null);
+                case EffectPosition.Center:
+                    effectObj1Parent = bodyCenterTransform;
                     break;
-                case EffectAffection.ApplyBuffs:
-                    foreach (var buff in effect.applyBuffs)
-                    {
-                        ApplyBuff(buff);
-                    }
+                case EffectPosition.Hands:
+                    effectObj1Parent = bodyLeftFootTransform;
+                    effectObj2Parent = bodyRightFootTransform;
                     break;
-                case EffectAffection.UnapplyBuffs:
-                    for (int i = 0; i < buffs.Count; i++)
-                    {
-                        if (buffs[i].type == effect.unapplyBuffsType)
-                            UnapplyBuff(buffs[i]);
-                    }
-                    break;
-                case EffectAffection.Stun:
-                    effect.stunBefore = isStunned;
-                    Stun(effect.stun);
+                case EffectPosition.Foots:
+                    effectObj1Parent = bodyLeftHandTransform;
+                    effectObj2Parent = bodyRightHandTransform;
                     break;
             }
+
+            effectObj1.transform.parent = effectObj1Parent;
+            effectObj1.transform.localPosition = Vector3.zero;
+            effectObj1.transform.localRotation = Quaternion.identity;
+
+            if (effectObj2 != null)
+            {
+                effectObj2.transform.parent = effectObj2Parent;
+                effectObj1.transform.localPosition = Vector3.zero;
+                effectObj1.transform.localRotation = Quaternion.identity;
+            }
+
+            effect.instantiatedEffectObject1 = effectObj1;
+            effect.instantiatedEffectObject2 = effectObj2;
         }
     }
     private void RemoveEffect(Effect effect)
     {
         if(currentEffects.Contains(effect))
         {
-            switch (effect.affects)
-            {
-                case EffectAffection.Attribute:
-                    attributes[effect.attribute] -= effect.attributeAdded;
-                    break;
+            Destroy(effect.instantiatedEffectObject1);
+            if (effect.instantiatedEffectObject2 != null)
+                Destroy(effect.instantiatedEffectObject2);
 
-                case EffectAffection.Stun:
-                    if (effect.stunBefore == isStunned)
-                        Stun(effect.stunBefore);
-                    break;
-            }
+            currentEffects.Remove(effect);
         }
     }
 

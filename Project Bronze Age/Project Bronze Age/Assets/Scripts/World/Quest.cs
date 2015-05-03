@@ -4,8 +4,55 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Quest : ScriptableObject
+[Serializable()]
+public abstract class Quest : ScriptableObject, INetworkID, ICloneable
 {
-    private int questName;
-    private int questDescription;
+    public int questName, questDescription, neededLevel;
+
+    public int rewardGold, rewardXp;
+    public string[] rewardItems;
+
+    public QuestVariation variation;
+    public QuestType type;
+
+    private int _networkId;
+
+    public int networkId
+    {
+        get
+        {
+            return _networkId;
+        }
+    }
+
+    public virtual bool CheckQuestCompleted(PlayerActor actor)
+    {
+        return false;
+    }
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+}
+
+[Serializable]
+public enum QuestVariation
+{
+    CollectItem,
+    Kill,
+    Deliver
+    /*
+    Escort,
+    Profession,
+    ...
+    */
+}
+[Serializable]
+public enum QuestType
+{
+    Normal,
+    Time,
+    Daily,
+    Seasonal
 }

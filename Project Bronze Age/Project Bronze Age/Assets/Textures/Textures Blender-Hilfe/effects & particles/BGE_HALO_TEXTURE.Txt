@@ -1,0 +1,23 @@
+
+
+
+
+#################  Particles und halos mit Screenorientierung erstellen
+
+
+
+
+BGE Material - Face Orientation auf Halo oder Billboard
+
+
+Plane erstellen - im EDITMODE Rotate Y -90
+
+
+Backface Culling kann anbleiben ;)
+
+
+
+
+
+
+Die Normale des BGE Billboards/Halos liegt also in X+ Richtung

@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 [Serializable()]
-public class Buff : ScriptableObject
+public abstract class Buff : ScriptableObject, INetworkID
 {
     public string buffName;
     public string description;
@@ -13,8 +13,14 @@ public class Buff : ScriptableObject
     public float liveTime, effectInvokationIntervall;
     public bool hasLivetime, isRemovable, isDebuff, hasInvokationIntervall;
     public float currentLiveTime, currentEffectInvokationIntervall;
-
     public List<Effect> effects;
+
+    private int _networkId;
+
+    public int networkId
+    {
+        get { return _networkId; }
+    }
 
     public void Update()
     {
@@ -26,6 +32,15 @@ public class Buff : ScriptableObject
                 currentLiveTime = 0;
             }
         }
+    }
+
+    public virtual void OnApply(LiveActor actor)
+    {
+
+    }
+    public virtual void OnUnapply()
+    {
+
     }
 }
 

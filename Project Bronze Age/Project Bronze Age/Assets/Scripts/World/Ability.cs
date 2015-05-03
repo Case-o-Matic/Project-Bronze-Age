@@ -4,19 +4,25 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class Ability : ScriptableObject
+[Serializable]
+public abstract class Ability : ScriptableObject, INetworkID
 {
     public string abilityName;
     public string abilityDescription;
     public float castTime, cooldown, manaCost;
     public AbilityTarget target;
-
     
     public float currentCastTime, currentCooldown;
     public bool isInvoking { get; private set; }
     public AbilityInvokation currentInvokationProperties { get; private set; }
 
+    private int _networkId;
+
     public bool canUseAbility { get { return currentCooldown == 0; } }
+    public int networkId
+    {
+        get { return _networkId; }
+    }
 
     public void Update()
     {

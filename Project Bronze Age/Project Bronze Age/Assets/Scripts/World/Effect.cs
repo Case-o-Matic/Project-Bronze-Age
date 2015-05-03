@@ -7,37 +7,17 @@ using UnityEngine;
 [Serializable]
 public class Effect
 {
-    public EffectAffection affects;
+    public EffectPosition position;
     public GameObject gameObject;
 
-    // Attribute
-    public AttributeType attribute;
-    public float attributeAdded;
-    
-    // ReceiveDamage
-    public float receiveDamage;
-    public DamageType receiveDamageType;
-
-    // ReceiveHeal
-    public float receiveHeal;
-
-    // ApplyBuffs/UnapplyBuffs
-    public Buff[] applyBuffs;
-    public BuffType unapplyBuffsType;
-
-    // Stun
-    public bool stun;
-    [HideInInspector]
-    public bool stunBefore;
+    public GameObject instantiatedEffectObject1, instantiatedEffectObject2;
 }
 
 [Serializable]
-public enum EffectAffection
+public enum EffectPosition
 {
-    Attribute,
-    ReceiveDamage,
-    ReceiveHeal,
-    ApplyBuffs,
-    UnapplyBuffs,
-    Stun
+    Head,
+    Center,
+    Hands,
+    Foots,
 }
