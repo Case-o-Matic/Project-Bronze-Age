@@ -133,7 +133,7 @@ public abstract class Actor : MonoBehaviour, INetworkID
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    protected struct ClientRequest // Packet size in bytes: 26
+    protected struct ClientRequest // Packet size in bytes: 34 (without sequential packaging)
     {
         // (s)byte = 2 means no value (networkMessageSByteNoValue)
         // int = 0 means no value
@@ -163,7 +163,7 @@ public abstract class Actor : MonoBehaviour, INetworkID
         }
     }
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    protected struct ServerCommand // Packet size in bytes: 52
+    protected struct ServerCommand // Packet size in bytes: 60 (without sequential packaging)
     {
         // (s)byte = 2 means no value
         // int = 0 means no value

@@ -6,14 +6,11 @@ namespace ProjectBronzeAge.Core
 {
     public class GameDataUserInfo
     {
-        public string userId;
-
         public GameDataUserCharacterInfo[] characters;
         public GameDataUserAccountInfo account;
 
-        public GameDataUserInfo(string userid, GameDataUserCharacterInfo[] characters, GameDataUserAccountInfo account)
+        public GameDataUserInfo(GameDataUserCharacterInfo[] characters, GameDataUserAccountInfo account)
         {
-            this.userId = userid;
             this.characters = characters;
             this.account = account;
         }

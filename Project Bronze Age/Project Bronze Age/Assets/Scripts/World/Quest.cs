@@ -7,7 +7,7 @@ using UnityEngine;
 [Serializable()]
 public abstract class Quest : ScriptableObject, INetworkID, ICloneable
 {
-    public int questName, questDescription, neededLevel;
+    public int questName, questDescription, acceptedQuestOwnerDialogText, neededLevel;
 
     public int rewardGold, rewardXp;
     public string[] rewardItems;

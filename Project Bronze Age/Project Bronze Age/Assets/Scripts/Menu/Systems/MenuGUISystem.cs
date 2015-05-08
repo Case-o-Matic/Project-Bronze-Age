@@ -1,43 +1,98 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MenuGUISystem : MonoBehaviour
 {
-    public Text gameDataServerStateText, usernameText;
+    public GameObject mainMenuObject, loadingScreenObject;
+    public Text gameDataServerStateText, usernameText, languageText, loadingText;
+    public Button reconnectButton;
     public Image progressBarValue;
 
-    public UserSystem userSystem;
     public AudioSource musicAudioSource;
+    public List<ILoadable> loadables;
 
-    private float currentProgressBarValue;
+    private bool isInitializing = true;
+    private float currentAbsoluteProgressbarValue;
 
-    public void SetLoadingProgress(float value)
+    void Awake()
     {
-        if (value <= 100 && value >= 0)
-            currentProgressBarValue = Mathf.Lerp(currentProgressBarValue, value, 0.1f);
-        else currentProgressBarValue = 0;
+        loadables = new List<ILoadable>();
     }
 
     void Start()
     {
+        loadables.Add(UserSystem.Instance);
+        loadables.Add(SettingsSystem.Instance);
+
+        AutoselectLanguage();
         progressBarValue.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
     }
 
     void Update()
     {
-        if (userSystem.gameDataServerConnectionMode != GameDataServerConnectionMode.StartUp && !musicAudioSource.isPlaying)
+        if (UserSystem.Instance.gameDataServerConnectionMode != GameDataServerConnectionMode.StartUp && !musicAudioSource.isPlaying)
             musicAudioSource.Play();
+        if (HasFullyLoaded() && isInitializing)
+        {
+            loadingScreenObject.SetActive(false);
+            mainMenuObject.SetActive(true);
 
-        gameDataServerStateText.text = userSystem.gameDataServerConnectionMode.ToString();
-        usernameText.text = userSystem.caseomaticUsername;
+            isInitializing = false;
+        }
+        else if(UserSystem.Instance.loadErrorOccured && isInitializing) // Check all important things here
+        {
+            loadingText.text = LanguageSystem.Get("Central servers not reachable");
+            Debug.LogError("Central servers not reachable");
 
-        SetAbsoluteProgressVarValue(currentProgressBarValue);
+            isInitializing = false;
+        }
+        else if(SettingsSystem.Instance.loadErrorOccured && isInitializing)
+        {
+            loadingText.text = LanguageSystem.Get("Settings couldnt get loaded");
+            Debug.LogError("Settings couldnt get loaded");
+
+            isInitializing = false;
+        }
+
+        if(isInitializing)
+            loadingText.text = LanguageSystem.Get("Loading");
+
+        if (UserSystem.Instance.gameDataServerConnectionMode == GameDataServerConnectionMode.Aborted)
+        {
+            reconnectButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            reconnectButton.gameObject.SetActive(false);
+        }
+
+        gameDataServerStateText.text = LanguageSystem.Get(UserSystem.Instance.gameDataServerConnectionMode.ToString());
+        usernameText.text = UserSystem.Instance.caseomaticUsername;
+
+        SetAbsoluteProgressbarValue();
     }
 
-    private void SetAbsoluteProgressVarValue(float relative)
+    private void SetAbsoluteProgressbarValue()
     {
-        float screenRelative = (Screen.width / 100) * relative;
-        progressBarValue.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, screenRelative);
+        float loadableValues = 0;
+        var loadingComponents = loadables.FindAll((l1) => { if (l1.isLoading) return true; else return false; });
+        loadingComponents.ForEach((l2) => { loadableValues += l2.progress / 100 * loadingComponents.Count; });
+
+        currentAbsoluteProgressbarValue = Mathf.Lerp(currentAbsoluteProgressbarValue, loadableValues, 0.1f);
+
+        progressBarValue.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentAbsoluteProgressbarValue);
+    }
+    private void AutoselectLanguage()
+    {
+        LanguageSystem.Instance.UpdateLocation();
+        LanguageSystem.Instance.SetLanguage(LanguageSystem.Instance.currentLocationNameShortcut);
+
+        languageText.text = LanguageSystem.Instance.currentLanguage.name + " (" + LanguageSystem.Instance.currentLocationNameShortcut + ")";
+    }
+    private bool HasFullyLoaded()
+    {
+        return loadables.Find((l) => { if (!l.isDone) return true; else return false; }) == null ? true : false;
     }
 }

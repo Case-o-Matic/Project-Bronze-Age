@@ -13,7 +13,7 @@ namespace ProjectBronzeAge.GameServer
 {
     class Program
     {
-        public const string version = "1.0.0-alpha.1";
+        public const string version = "1.0.0-alpha.3";
         private static ServerSocket serverSocket;
 
         static void Main(string[] args)
@@ -25,6 +25,7 @@ namespace ProjectBronzeAge.GameServer
                 #region Port
                 setport:
                 Console.Write("Port> ");
+
                 int port;
                 if (!int.TryParse(Console.ReadLine(), out port))
                 {
@@ -40,7 +41,8 @@ namespace ProjectBronzeAge.GameServer
 
                 #region User-database
                 setuserdbpath:
-                Console.WriteLine("User-database filepath> ");
+                Console.Write("User-database filepath> ");
+
                 string userDbFilepath = Console.ReadLine();
                 if (!File.Exists(userDbFilepath) || Path.GetExtension(userDbFilepath) != ".accdb")
                 {
@@ -60,8 +62,8 @@ namespace ProjectBronzeAge.GameServer
                     Console.Write("Command> ");
                     string fullCommand = Console.ReadLine();
 
-                    string commandName;
-                    string[] commandArgs;
+                    string commandName = "";
+                    string[] commandArgs = new string[0];
 
                     if (fullCommand.Contains(":"))
                     {
@@ -74,12 +76,23 @@ namespace ProjectBronzeAge.GameServer
 
                     switch (commandName)
                     {
+                        case "setaccounttype":
+                            var userRow = serverSocket.DbSelectRowFromTableString("Users", "Username", commandArgs[0]);
+
+                            var gameDataUserInfo = GameDataUserInfo.FromBytes(ASCIIEncoding.ASCII.GetBytes(userRow[1]));
+                            var newRank = GameDataUserInfo.GameDataUserAccountInfo.GameUserAccountInfoRankType.Normal;
+                            if (Enum.TryParse<GameDataUserInfo.GameDataUserAccountInfo.GameUserAccountInfoRankType>(commandArgs[1], out newRank))
+                                gameDataUserInfo.account.playerType = newRank;
+                            else
+                                Console.WriteLine("The second argument \"" + commandArgs[1] + "\" is not valid");
+                            break;
+
                         case "stop":
                             serverSocket.Stop();
 
                             Console.WriteLine("Stopped the server");
                             Console.Read();
-                            break;
+                            return;
 
                         default:
                             Console.WriteLine("The command \"" + commandName + "\" is not valid");
@@ -98,54 +111,78 @@ namespace ProjectBronzeAge.GameServer
         {
             switch (msg.type)
             {
-                case "auth":
-                    var authMsg = PackageConverter.ConvertFromByteArray<ClientDataAuthPackage>(Encoding.ASCII.GetBytes(msg.data[0]));
-                    
-                    if(authMsg.type == ClientDataAuthPackageType.Login)
+                case "register":
+                    if (serverSocket.DbInsertRowIntoTable("Users", msg.data[0], Guid.NewGuid().ToString(), new GameDataUserInfo(null, new GameDataUserInfo.GameDataUserAccountInfo(GameDataUserInfo.GameDataUserAccountInfo.GameUserAccountInfoRankType.Normal, 2))))
                     {
-                        string[] data = serverSocket.DbSelectRowFromTableString("Users", "Username", authMsg.username);
-                        var gamedatauserinfo = data != null ? data[1] : null;
-                        var serverPackage = new ServerDataAuthPackage(data != null ? ServerDataAuthPackageType.LoginValid : ServerDataAuthPackageType.LoginInvalid, gamedatauserinfo);
-
-                        serverSocket.Send(socket, new SocketMessage("auth", Encoding.ASCII.GetString(PackageConverter.ConvertToByteArray<ServerDataAuthPackage>(serverPackage))));
+                        Console.WriteLine("Created a new account for " + msg.data[0]);
+                        serverSocket.Send(socket, new SocketMessage("register"));
                     }
-                    else if(authMsg.type == ClientDataAuthPackageType.Logout)
+                    else
                     {
-                        string[] data = serverSocket.DbSelectRowFromTableString("Users", "Username", authMsg.username);
-                        if (data != null)
-                        {
-                            var gamedatauserinfo = GameDataUserInfo.FromBytes(Encoding.ASCII.GetBytes(data[1]));
-                            GameDataUserInfo.GameDataUserCharacterInfo appliedChar = null;
-                            foreach (var character in gamedatauserinfo.characters)
-                            {
-                                if (character.name == authMsg.logoutPlayedCharName)
-                                {
-                                    var newChar = GameDataUserInfo.GameDataUserCharacterInfo.FromBytes(Encoding.ASCII.GetBytes(authMsg.logoutPlayedCharNewInfo));
-                                    character.posX = newChar.posX;
-                                    character.posY = newChar.posY;
-                                    character.posZ = newChar.posZ;
-                                    character.abilities = newChar.abilities;
-                                    character.items = newChar.items;
-                                    character.genderStyle = newChar.genderStyle;
-                                    character.hairStyleIndex = newChar.hairStyleIndex;
-                                    character.bodyStyleIndex = newChar.bodyStyleIndex;
-                                    character.level = newChar.level;
-
-                                    appliedChar = character;
-                                }
-                            }
-                            if (appliedChar == null)
-                                Console.WriteLine("The user \"" + authMsg.username + "\" tried to logout with the character \"" + authMsg.logoutPlayedCharName + "\" but it doesnt exist");
-                            else
-                                serverSocket.DbApplyValuesToRowFromTable("Users", "Username", authMsg.username, authMsg.username, Encoding.ASCII.GetString(GameDataUserInfo.GameDataUserCharacterInfo.ToBytes(appliedChar)));
-                        }
-                        else
-                            Console.WriteLine("The user \"" + authMsg.username + "\" tried to log out but he doesnt exist");
+                        Console.WriteLine("An account for " + msg.data[0] + " already exists. This should not happen!");
                     }
+                    break;
+
+                case "login":
+                    string[] loginData = serverSocket.DbSelectRowFromTableString("Users", "Username", msg.data[0]);
+                    var loginGameDataUserInfo = loginData != null ? loginData[1] : null;
+                    if (loginData != null)
+                        serverSocket.DbUpdateValueToColumnFromRowInTable("Users", "LoggedIn", true);
+
+                    serverSocket.Send(socket, new SocketMessage("login", loginGameDataUserInfo != null ? "success" : "fail", loginGameDataUserInfo));
+                    break;
+
+                case "logout":
+                    serverSocket.DbUpdateValueToColumnFromRowInTable("Users", "LoggedIn", false);
+                    serverSocket.Send(socket, new SocketMessage("logout" /* Maybe add a state like "success" or "fail"? */));
+
+                    Console.WriteLine(msg.data[0] + " logged out");
                     break;
 
                 case "dchange":
-                    break;
+                    string[] logoutData = serverSocket.DbSelectRowFromTableString("Users", "Username", msg.data[0]);
+                    if (logoutData != null)
+                    {
+                        if (logoutData[2] == "true")
+                        {
+                            if (msg.data[1] == "char")
+                            {
+                                var dataChangeGameDataUserInfo = GameDataUserInfo.FromBytes(Encoding.ASCII.GetBytes(logoutData[1]));
+                                GameDataUserInfo.GameDataUserCharacterInfo appliedChar = null;
+                                foreach (var character in dataChangeGameDataUserInfo.characters)
+                                {
+                                    if (character.name == msg.data[2])
+                                    {
+                                        var newChar = GameDataUserInfo.GameDataUserCharacterInfo.FromBytes(Encoding.ASCII.GetBytes(msg.data[3]));
+                                        character.posX = newChar.posX;
+                                        character.posY = newChar.posY;
+                                        character.posZ = newChar.posZ;
+                                        character.abilities = newChar.abilities;
+                                        character.items = newChar.items;
+                                        character.genderStyle = newChar.genderStyle;
+                                        character.hairStyleIndex = newChar.hairStyleIndex;
+                                        character.bodyStyleIndex = newChar.bodyStyleIndex;
+                                        character.level = newChar.level;
+
+                                        appliedChar = character;
+
+                                        Console.WriteLine("Changed char data of the user " + msg.data[0]);
+                                        serverSocket.Send(socket, new SocketMessage("dchange", "success"));
+                                        break;
+                                    }
+                                }
+                                Console.WriteLine(msg.data[0] + " wanted to change data but no character was found");
+                            }
+                            else if (msg.data[1] == "account")
+                            {
+                                // TODO: Apply changed account settings
+                            }
+                            // else if...
+                        }
+                        else
+                            Console.WriteLine("The user " + msg.data[0] + " wanted to change data but isnt logged in");
+                    }
+                break;
 
                 default:
                     Console.WriteLine("\"" + msg.type + "\" is an unknown type");

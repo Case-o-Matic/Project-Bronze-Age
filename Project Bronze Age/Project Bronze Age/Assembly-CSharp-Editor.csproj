@@ -152,11 +152,17 @@
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
+ <Reference Include="CaseoMaticCore">
+ <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/CaseoMaticCore.dll</HintPath>
+ </Reference>
  <Reference Include="ProjectBronzeAge.Core">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Core.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/protobuf-net.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security">
+ <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/System.Security.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>

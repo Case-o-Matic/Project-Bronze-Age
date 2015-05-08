@@ -35,7 +35,7 @@
   <Class Name="NpcActor" Collapsed="true">
     <Position X="4.5" Y="21.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAEA=</HashCode>
+      <HashCode>AAQAAAAAAAAAACAAgAAAAAAAAAAAAAAAAAACAAgAAEA=</HashCode>
       <FileName>Assets\Scripts\World\NpcActor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -106,7 +106,7 @@
   <Class Name="Quest" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="11" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>MAAAAQAACAAAAABAAAAABAAAAAABAAAICAggAAAAABA=</HashCode>
+      <HashCode>MAAAAQAACAAAAABAAAAABAAAAAIBAAAICAggAAAAABA=</HashCode>
       <FileName>Assets\Scripts\World\Quest.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
