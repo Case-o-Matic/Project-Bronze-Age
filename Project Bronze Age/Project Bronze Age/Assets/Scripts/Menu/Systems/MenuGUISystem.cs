@@ -25,6 +25,7 @@ public class MenuGUISystem : MonoBehaviour
     {
         loadables.Add(UserSystem.Instance);
         loadables.Add(SettingsSystem.Instance);
+        loadables.Add(LanguageSystem.Instance);
 
         AutoselectLanguage();
         progressBarValue.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);

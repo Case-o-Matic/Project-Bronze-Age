@@ -1,0 +1,15 @@
+Server, 07.05.2015 16:17:06: Exception while listening to clients: System.Data.OleDb.OleDbException (0x80004005): Installierbares ISAM nicht gefunden.
+   bei System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   bei System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   bei System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   bei System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   bei System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   bei System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   bei System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   bei System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   bei System.Data.OleDb.OleDbConnection.Open()
+   bei CaseoMaticCore.ServerSocket.DbInitialize(String dbname) in C:\Users\steelbloom\Desktop\Git\CaseoMatic-Gameclient\CaseoMatic Gameclient Project\CaseoMaticCore\ServerSocket.cs:Zeile 274.
+   bei CaseoMaticCore.ServerSocket.Start(String dbname) in C:\Users\steelbloom\Desktop\Git\CaseoMatic-Gameclient\CaseoMatic Gameclient Project\CaseoMaticCore\ServerSocket.cs:Zeile 54.
+Server, 07.05.2015 16:17:41: Stopped the server
+Server, 07.05.2015 16:17:45: The database is already closed
+Server, 07.05.2015 16:17:45: Stopped the server

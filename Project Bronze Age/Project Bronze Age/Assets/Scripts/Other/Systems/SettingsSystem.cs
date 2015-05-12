@@ -4,13 +4,19 @@ using System.Collections;
 using ProtoBuf;
 using System.IO;
 using System;
+using YamlDotNet.Serialization;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 
 public class SettingsSystem : MonoBehaviour, ILoadable
 {
+    // TODO: Change the serializer?
+    private static YamlDotNet.Serialization.Serializer yamlSerializer = new YamlDotNet.Serialization.Serializer();
+    private static YamlDotNet.Serialization.Deserializer yamlDeserializer = new YamlDotNet.Serialization.Deserializer();
     public const string settingsFilePath = @"data\settings.data";
 
     public static SettingsSystem Instance;
-    public Settings settings;
+    public Settings currentSettings;
 
     public float progress
     {
@@ -48,38 +54,41 @@ public class SettingsSystem : MonoBehaviour, ILoadable
             progress += 100;
             isDone = true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.LogException(ex);
             loadErrorOccured = true;
         }
         finally
         {
             isLoading = false;
         }
+
+        SaveSettings();
     }
 
     public void GetSettings()
     {
         if (!File.Exists(settingsFilePath))
-            settings = new Settings();
+            currentSettings = new Settings();
         else
         {
-            using (var fs = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read))
-                settings = Serializer.Deserialize<Settings>(fs);
-        }
+            using (var sr = new StreamReader(File.Open(settingsFilePath, FileMode.Open)))
+                currentSettings = yamlDeserializer.Deserialize<Settings>(sr);
+        }        
     }
     public void SaveSettings()
     {
-        using (var fs = new FileStream(settingsFilePath, FileMode.OpenOrCreate, FileAccess.Write))
-            Serializer.Serialize<Settings>(fs, settings);
+        using (var sw = new StreamWriter(File.Create(settingsFilePath)))
+            yamlSerializer.Serialize(sw, currentSettings);
     }
 
     public void ApplySettings()
     {
-        if (settings != null)
+        if (currentSettings != null)
         {
             // TODO: Apply all settings
-            LanguageSystem.Instance.SetLanguage(settings.general.currentLanguageNameShortcut);
+            LanguageSystem.Instance.SetLanguage(currentSettings.general.currentLanguageNameShortcut);
         }
     }
 }

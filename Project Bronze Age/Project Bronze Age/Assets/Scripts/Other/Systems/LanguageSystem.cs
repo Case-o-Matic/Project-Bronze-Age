@@ -10,6 +10,8 @@ public class LanguageSystem : MonoBehaviour, ILoadable
 {
     public const string languagesFolder = "languages", languageFileExtension = ".data";
     public static LanguageSystem Instance;
+    private static YamlDotNet.Serialization.Serializer yamlSerializer = new YamlDotNet.Serialization.Serializer();
+    private static YamlDotNet.Serialization.Deserializer yamlDeserializer = new YamlDotNet.Serialization.Deserializer();
 
     public string currentLocationNameShortcut;
     public List<Language> languages;
@@ -69,8 +71,8 @@ public class LanguageSystem : MonoBehaviour, ILoadable
         var languageFiles = new DirectoryInfo(languagesFolder).GetFiles("*" + languageFileExtension);
         foreach (var languageFile in languageFiles)
         {
-            using (var languageFileStream = File.Open(languageFile.FullName, FileMode.Open, FileAccess.Read))
-                languages.Add(Serializer.Deserialize<Language>(languageFileStream));
+            using (var sr = new StreamReader(File.Open(languageFile.FullName, FileMode.OpenOrCreate)))
+                languages.Add(yamlDeserializer.Deserialize<Language>(sr));
         }
 
         progress += 50;
@@ -79,8 +81,8 @@ public class LanguageSystem : MonoBehaviour, ILoadable
     {
         foreach (var language in languages)
         {
-            using (var languageFileStream = File.Create(languagesFolder + @"\" + language.name + languageFileExtension))
-                Serializer.Serialize<Language>(languageFileStream, language);
+            using (var sw = new StreamWriter(File.Create(languagesFolder + @"\" + language.name + languageFileExtension)))
+                yamlSerializer.Serialize(sw, language);
         }
     }
 

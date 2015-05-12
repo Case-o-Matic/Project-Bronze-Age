@@ -11,7 +11,7 @@ public class Language
 
     public string GetLanguageTextByEnglish(string englishtext)
     {
-        return items.Find((i) => { if (i.englishText == englishtext) return true; else return false; }).languageText ?? "";
+        return items.Find((i) => { if (i.englishText == englishtext) return true; else return false; }).languageText; // Maybe return the englishtext if the found languageText is ""/null?
     }
 }
 
