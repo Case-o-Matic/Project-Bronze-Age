@@ -15,13 +15,13 @@ public class NpcActor : LiveActor
         base.Update();
     }
 
-    public void GotoPosition(Vector3 position)
-    {
-        navMeshAgent.SetDestination(position);
-    }
-
     private void DoAIControl()
     {
+        // Check if server then calculate
+    }
 
+    private void GotoPosition(Vector3 position)
+    {
+        navMeshAgent.SetDestination(position);
     }
 }

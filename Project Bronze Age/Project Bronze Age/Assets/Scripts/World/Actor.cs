@@ -16,8 +16,10 @@ public abstract class Actor : MonoBehaviour, INetworkID
     public string actorName;
 
     // Networking
-    private ClientRequest lastRequest;
-    private ServerCommand lastCommand;
+    //protected ClientRequest clientNextRequest;
+    //protected ServerEvent serverNextEvent;
+    //protected ServerState serverNextState;
+
     private InterpolationState[] interpolationStateBuffer;
     private int timestampCount;
 
@@ -38,7 +40,7 @@ public abstract class Actor : MonoBehaviour, INetworkID
 
     protected virtual void Update()
     {
-        PerformInterpolation(1 /* Find client timestamp */);
+        PerformInterpolation(1 /* Find client timestamp (like Network.time) */);
     }
 
     protected virtual void FixedUpdate()
@@ -53,31 +55,27 @@ public abstract class Actor : MonoBehaviour, INetworkID
     {
     }
 
-    [Obsolete]
-    protected virtual void OnSerializeServerStream(BitStream stream)
-    {
-    }
-    [Obsolete]
-    protected virtual void OnSerializeClientStream(BitStream stream)
-    {
-    }
-
     // Client
     protected void SendClientRequest(ClientRequest rq)
     {
-        // TODO: Send the client request
+        // TODO: Check if client and "this == local player (owner)" and then send the client request
     }
     // Client
-    protected virtual void OnApplyServerCommand(ServerCommand cmd, float timestamp)
+    protected virtual void OnApplyServerEvent(ServerEvent ev)
     {
-        if (cmd.position != Vector3.zero) // if the pos. isnt zero the rot. isnt too
+        
+    }
+    // Client
+    protected virtual void OnApplyServerState(ServerState state, float timestamp)
+    {
+        if (state.position != default(Vector3)) // if the pos. isnt default the rot. isnt too
         {
             for (int i = interpolationStateBuffer.Length - 1; i >= 1; i--)
             {
                 interpolationStateBuffer[i] = interpolationStateBuffer[i - 1];
             }
 
-            InterpolationState newState = new InterpolationState(cmd.position, cmd.rotation, timestamp);
+            InterpolationState newState = new InterpolationState(state.position, state.rotation, timestamp);
             interpolationStateBuffer[0] = newState;
 
             timestampCount = Mathf.Min(timestampCount + 1, interpolationStateBuffer.Length);
@@ -88,13 +86,16 @@ public abstract class Actor : MonoBehaviour, INetworkID
             //}
         }
     }
-    // Server
-    protected virtual void SendServerCommand(ServerCommand cmd)
-    {
-        cmd.position = transform.position;
-        cmd.rotation = transform.rotation.eulerAngles;
 
-        // TODO: Send the server command
+    // Server
+    protected void SendServerEvent(ServerEvent ev)
+    {
+        // Check if server and then send the server command
+    }
+    // Server
+    protected void SendServerState(ServerState state)
+    {
+        // TODO: Check if server and then send the server command
     }
     // Server
     protected virtual void OnReceiveClientRequest(ClientRequest rq)
@@ -129,72 +130,6 @@ public abstract class Actor : MonoBehaviour, INetworkID
                     return;
                 }
             }
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    protected struct ClientRequest // Packet size in bytes: 34 (without sequential packaging)
-    {
-        // (s)byte = 2 means no value (networkMessageSByteNoValue)
-        // int = 0 means no value
-        // Vector3 = Vector3.zero means no value
-
-        public sbyte horizontalMove, verticalMove;
-        public int invokeAbilityId,
-            pickupItemToInvId,
-            removeItemFromInvId, acceptQuestId;
-
-        public int invokeAbilityTargetActorId;
-        public Vector3 invokeAbilityTargetPos;
-
-        // TODO: Change primary weapon, and find more requests
-
-        public ClientRequest(sbyte hormove = networkMessageSByteNoValue, sbyte vermove = networkMessageSByteNoValue, int invokeabilityid = 0, int pickupitemtoinvid = 0, int removeitemfrominvid = 0, int acceptquestid = 0, int invokeabilitytargetactorid = 0, Vector3 invokeabilitytargetpos = default(Vector3))
-        {
-            horizontalMove = hormove;
-            verticalMove = vermove;
-            invokeAbilityId = invokeabilityid;
-            pickupItemToInvId = pickupitemtoinvid;
-            removeItemFromInvId = removeitemfrominvid;
-            acceptQuestId = acceptquestid;
-
-            invokeAbilityTargetActorId = invokeabilitytargetactorid;
-            invokeAbilityTargetPos = invokeabilitytargetpos;
-        }
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    protected struct ServerCommand // Packet size in bytes: 60 (without sequential packaging)
-    {
-        // (s)byte = 2 means no value
-        // int = 0 means no value
-        // Vector3 = default(Vector3) means no value
-
-        public Vector3 position, rotation;
-        public int invokeAbilityId,
-            pickupItemToInvId,
-            removeItemFromInvId,
-            interactWithActorId, acceptQuestId, finishQuestId, currentGold, currentLevel, currentXp;
-
-        public int invokeAbilityTargetActorId;
-        public Vector3 invokeAbilityTargetPos;
-
-        // TODO: Change primary weapon, and find more commands
-
-        public ServerCommand(Vector3 pos = default(Vector3), Vector3 rot = default(Vector3), int invokeabilityid = 0, int pickupitemtoinvid = 0, int removeitemfrominv = 0, int interactwithactorid = 0, int acceptquestid = 0, int finishquestid = 0, int invokeabilitytargetactorid = 0, Vector3 invokeavilitytargetpos = default(Vector3), int currentgold = 0, int currentlevel = 0, int currentxp = 0)
-        {
-            position = pos;
-            rotation = rot;
-            invokeAbilityId = invokeabilityid;
-            pickupItemToInvId = pickupitemtoinvid;
-            removeItemFromInvId = removeitemfrominv;
-            interactWithActorId = interactwithactorid;
-            acceptQuestId = acceptquestid;
-            finishQuestId = finishquestid;
-            invokeAbilityTargetActorId = invokeabilitytargetactorid;
-            invokeAbilityTargetPos = invokeavilitytargetpos;
-            currentGold = currentgold;
-            currentLevel = currentlevel;
-            currentXp = currentxp;
         }
     }
 

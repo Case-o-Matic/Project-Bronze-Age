@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class MenuGUISystem : MonoBehaviour
 {
     public GameObject mainMenuObject, loadingScreenObject;
-    public Text gameDataServerStateText, usernameText, languageText, loadingText;
+    public Text gameDataServerStateText, usernameText, languageText, loadingText, reconnectButtonText;
     public Button reconnectButton;
     public Image progressBarValue;
 
@@ -62,6 +62,7 @@ public class MenuGUISystem : MonoBehaviour
 
         if (UserSystem.Instance.gameDataServerConnectionMode == GameDataServerConnectionMode.Aborted)
         {
+            reconnectButtonText.text = LanguageSystem.Get("Reconnect");
             reconnectButton.gameObject.SetActive(true);
         }
         else
@@ -69,8 +70,11 @@ public class MenuGUISystem : MonoBehaviour
             reconnectButton.gameObject.SetActive(false);
         }
 
-        gameDataServerStateText.text = LanguageSystem.Get(UserSystem.Instance.gameDataServerConnectionMode.ToString());
-        usernameText.text = UserSystem.Instance.caseomaticUsername;
+        if (!isInitializing)
+        {
+            gameDataServerStateText.text = LanguageSystem.Get(UserSystem.Instance.gameDataServerConnectionMode.ToString());
+            usernameText.text = UserSystem.Instance.caseomaticUsername;
+        }
 
         SetAbsoluteProgressbarValue();
     }

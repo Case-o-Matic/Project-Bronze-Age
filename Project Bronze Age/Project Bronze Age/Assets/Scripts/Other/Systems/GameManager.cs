@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void OnPlayLocal()
+    {
+        playMode = GamePlayMode.PlaysLocal;
+        networkType = GameNetworkType.Client; // Or server/new network type?
+        currentServerPlayInfo = new ServerPlayInfo("Local", "", 0, 0, new byte[0]);
+    }
     public void OnJoinServer(ServerPlayInfo serverplayinfo)
     {
         playMode = GamePlayMode.PlaysOnServer;

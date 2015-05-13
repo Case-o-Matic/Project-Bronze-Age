@@ -17,7 +17,7 @@ public class PlayerActor : LiveActor
     }
     public void FinishQuest(int id)
     {
-
+        // Find the quest by the ID and finish it
     }
 
     protected override void Update()
@@ -31,18 +31,22 @@ public class PlayerActor : LiveActor
         base.Update();
     }
 
-    protected override void OnApplyServerCommand(ServerCommand cmd, float timestamp)
+    protected override void OnApplyServerEvent(ServerEvent ev)
     {
-        if(cmd.acceptQuestId != 0)
+        if (ev.acceptQuestId != 0)
         {
-            AcceptQuest(cmd.acceptQuestId);
+            AcceptQuest(ev.acceptQuestId);
         }
-        if(cmd.finishQuestId != 0)
+        if (ev.finishQuestId != 0)
         {
-            FinishQuest(cmd.finishQuestId);
+            FinishQuest(ev.finishQuestId);
         }
 
-        base.OnApplyServerCommand(cmd, timestamp);
+        base.OnApplyServerEvent(ev);
+    }
+    protected override void OnApplyServerState(ServerState state, float timestamp)
+    {
+        base.OnApplyServerState(state, timestamp);
     }
     protected override void OnReceiveClientRequest(ClientRequest rq)
     {
@@ -54,7 +58,7 @@ public class PlayerActor : LiveActor
         {
             Quest quest = currentQuests[0]; // Find the quest
             if (currentQuests.Count + 1 < maxAcceptableQuests && !currentQuests.Contains(quest))
-                SendServerCommand(new ServerCommand(acceptquestid: rq.acceptQuestId));
+            { /* Update next client request to accept quest */ }
         }
 
         base.OnReceiveClientRequest(rq);
@@ -74,7 +78,7 @@ public class PlayerActor : LiveActor
         {
             if (currentQuests[i].CheckQuestCompleted(this))
             {
-                SendServerCommand(new ServerCommand(finishquestid: currentQuests[i].networkId)); // Is this ID right?
+                // Update the next client request to finish quest
 
                 // Send command for rewards?
                 FinishQuest(currentQuests[i].networkId);

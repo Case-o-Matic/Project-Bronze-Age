@@ -11,7 +11,13 @@ public class Language
 
     public string GetLanguageTextByEnglish(string englishtext)
     {
-        return items.Find((i) => { if (i.englishText == englishtext) return true; else return false; }).languageText; // Maybe return the englishtext if the found languageText is ""/null?
+        var text = items.Find((i) => { if (i.englishText == englishtext) return true; else return false; }).languageText;
+        if (text == null)
+        {
+            Debug.Log("The translation text for \"" + englishtext + "\" in " + nameShortcut + " language is nonexistant.");
+            return englishtext;
+        }
+        else return text;
     }
 }
 

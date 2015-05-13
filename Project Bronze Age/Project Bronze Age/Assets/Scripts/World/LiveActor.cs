@@ -182,30 +182,65 @@ public class LiveActor : Actor
     {
         if(rq.invokeAbilityId != 0)
         {
-            var ability = abilities[0]; // Change this
-            // Use the ability
+            // Check and use the ability
+            SendServerEvent(new ServerEvent(invokeabilityid: rq.invokeAbilityId, invokeabilitytargetactorid: rq.invokeAbilityTargetActorId, invokeabilitytargetpos: rq.invokeAbilityTargetPos));
+        }
+        if(rq.pickupItemToInvId != 0)
+        {
+            // Check and pickup item
+            SendServerEvent(new ServerEvent(pickupitemtoinvid: rq.pickupItemToInvId));
+        }
+        if(rq.removeItemFromInvId != 0)
+        {
+            // Check and remove item
+            SendServerEvent(new ServerEvent(removeitemfrominvid: rq.removeItemFromInvId));
+        }
+        if(rq.interactWithActorId != 0)
+        {
+            // Check and interact with actor
+            SendServerEvent(new ServerEvent(interactwithactorid: rq.interactWithActorId));
         }
 
         base.OnReceiveClientRequest(rq);
     }
-    protected override void OnApplyServerCommand(ServerCommand cmd, float timestamp)
+    protected override void OnApplyServerEvent(ServerEvent ev)
     {
-        if(cmd.invokeAbilityId != 0)
-            UseAbility(cmd.invokeAbilityId, cmd.invokeAbilityTargetPos, this); // TODO: Use real ID-system for actors.
-        if (cmd.pickupItemToInvId != 0)
-            inventory.AddItem(cmd.pickupItemToInvId);
-        if(cmd.removeItemFromInvId != 0)
-            inventory.RemoveItem(cmd.removeItemFromInvId);
-        if (cmd.interactWithActorId != 0)
-        { /*interactionActor.Interact(this);*/ } // TODO: Use real ID-system for actors (interaction)
-        if(cmd.currentGold != 0)
-            inventory.AddGold(cmd.currentGold);
-        if (cmd.currentLevel != 0)
-            level.currentLevel = cmd.currentLevel;
-        if (cmd.currentXp != 0)
-            level.AddXp(cmd.currentXp);
+        if(ev.invokeAbilityId != 0)
+        {
+            // Find ability and invoke it with the given event parameters
+        }
+        if(ev.interactWithActorId != 0)
+        {
+            // Interact with the actor
+        }
+        if(ev.pickupItemToInvId != 0)
+        {
+            // Pickup the item from the ground
+        }
+        if (ev.removeItemFromInvId != 0)
+        {
+            // Remove the item from the inventory
+        }
 
-        base.OnApplyServerCommand(cmd, timestamp);
+        base.OnApplyServerEvent(ev);
+    }
+    protected override void OnApplyServerState(ServerState state, float timestamp)
+    {
+        if (state.attributes != null)
+        {
+            for (int i = 0; i < attributes.Count; i++)
+            {
+                attributes.Values. = state.attributes[i];
+            }
+        }
+        if(state.currentGold != 0)
+            inventory.gold = state.currentGold;
+        if (state.currentLevel != 0)
+            level.currentLevel = state.currentLevel;
+        if (state.currentXp != 0)
+            level.currentXp = state.currentXp;
+
+        base.OnApplyServerState(state, timestamp);
     }
 
     private void InitializeStartValues()
