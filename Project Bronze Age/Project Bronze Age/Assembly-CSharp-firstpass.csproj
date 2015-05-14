@@ -218,6 +218,9 @@
  <Reference Include="CaseoMaticCore">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/CaseoMaticCore.dll</HintPath>
  </Reference>
+ <Reference Include="NetSerializer">
+ <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/NetSerializer.dll</HintPath>
+ </Reference>
  <Reference Include="ProjectBronzeAge.Core">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Core.dll</HintPath>
  </Reference>

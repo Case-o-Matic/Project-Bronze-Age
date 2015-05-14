@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 [Serializable()]
-public abstract class Buff : ScriptableObject, INetworkID
+public abstract class Buff : ScriptableObject, IGlobalID
 {
     public string buffName;
     public string description;
@@ -17,7 +17,7 @@ public abstract class Buff : ScriptableObject, INetworkID
 
     private int _networkId;
 
-    public int networkId
+    public int globalId
     {
         get { return _networkId; }
     }

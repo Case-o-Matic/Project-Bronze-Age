@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 
-public abstract class Actor : MonoBehaviour, INetworkID
+public abstract class Actor : MonoBehaviour, IGlobalID
 {
     public const sbyte networkMessageSByteNoValue = 2;
     public const int interpolationTimeDelta = 100, interpolationBufferLength = 20;
@@ -23,7 +23,7 @@ public abstract class Actor : MonoBehaviour, INetworkID
     private InterpolationState[] interpolationStateBuffer;
     private int timestampCount;
 
-    public int networkId
+    public int globalId
     {
         get { return _networkId; }
     }

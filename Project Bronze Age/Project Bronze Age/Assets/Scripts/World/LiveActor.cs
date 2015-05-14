@@ -171,6 +171,8 @@ public class LiveActor : Actor
     }
     protected override void Update()
     {
+        // Send a position/rotation serverstate somewhere (using the network sendrate)
+
         UpdateAttributes();
         UpdateAbilities();
         UpdateBuffs();
@@ -205,6 +207,10 @@ public class LiveActor : Actor
     }
     protected override void OnApplyServerEvent(ServerEvent ev)
     {
+        if(ev.receiveDamageAmount != 0)
+        {
+            // Receive damage
+        }
         if(ev.invokeAbilityId != 0)
         {
             // Find ability and invoke it with the given event parameters
@@ -230,7 +236,7 @@ public class LiveActor : Actor
         {
             for (int i = 0; i < attributes.Count; i++)
             {
-                attributes.Values. = state.attributes[i];
+
             }
         }
         if(state.currentGold != 0)
@@ -401,9 +407,9 @@ public class LiveActor : Actor
 }
 
 [Serializable]
-public enum DamageType
+public enum DamageType : byte
 {
-    Physical,
-    Pure,
-    Poison
+    Physical = 0x01,
+    Pure = 0x02,
+    Poison = 0x03
 }

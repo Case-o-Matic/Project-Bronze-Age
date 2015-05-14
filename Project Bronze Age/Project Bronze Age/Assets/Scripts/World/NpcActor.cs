@@ -11,7 +11,9 @@ public class NpcActor : LiveActor
 
     protected override void Update()
     {
+        navMeshAgent.speed = totalMovementspeed;
         DoAIControl();
+
         base.Update();
     }
 

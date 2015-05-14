@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 [Serializable]
-public abstract class Ability : ScriptableObject, INetworkID
+public abstract class Ability : ScriptableObject, IGlobalID
 {
     public string abilityName;
     public string abilityDescription;
@@ -19,7 +19,7 @@ public abstract class Ability : ScriptableObject, INetworkID
     private int _networkId;
 
     public bool canUseAbility { get { return currentCooldown == 0; } }
-    public int networkId
+    public int globalId
     {
         get { return _networkId; }
     }

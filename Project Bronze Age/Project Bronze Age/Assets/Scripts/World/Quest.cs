@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 [Serializable()]
-public abstract class Quest : ScriptableObject, INetworkID, ICloneable
+public abstract class Quest : ScriptableObject, IGlobalID, ICloneable
 {
     public int questName, questDescription, acceptedQuestOwnerDialogText, neededLevel;
 
@@ -17,7 +17,7 @@ public abstract class Quest : ScriptableObject, INetworkID, ICloneable
 
     private int _networkId;
 
-    public int networkId
+    public int globalId
     {
         get
         {

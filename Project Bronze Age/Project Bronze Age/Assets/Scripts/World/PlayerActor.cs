@@ -56,14 +56,14 @@ public class PlayerActor : LiveActor
             verticalMove = rq.verticalMove;
         if(rq.acceptQuestId != 0)
         {
-            Quest quest = currentQuests[0]; // Find the quest
-            if (currentQuests.Count + 1 < maxAcceptableQuests && !currentQuests.Contains(quest))
-            { /* Update next client request to accept quest */ }
+            // Check quest and if available/acceptable accept it and send a ServerEvent back
         }
 
         base.OnReceiveClientRequest(rq);
     }
 
+    // If this is only used once for the movement, use the method body code and remove this method
+    // A nested call stack is lowering performance, especially in the often called Update method
     private Vector3 PerformMoveByAxes()
     {
         Vector3 newDir = new Vector3(horizontalMove, 0, verticalMove);
@@ -81,7 +81,7 @@ public class PlayerActor : LiveActor
                 // Update the next client request to finish quest
 
                 // Send command for rewards?
-                FinishQuest(currentQuests[i].networkId);
+                FinishQuest(currentQuests[i].globalId);
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 [Serializable()]
-public abstract class Item : ScriptableObject, INetworkID
+public abstract class Item : ScriptableObject, IGlobalID
 {
     public string itemName;
     public string itemDescription;
@@ -14,7 +14,7 @@ public abstract class Item : ScriptableObject, INetworkID
 
     private int _networkId;
 
-    public int networkId
+    public int globalId
     {
         get { return _networkId; }
     }

@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.IO;
+using NetSerializer;
+using System;
 
 // PROTOCOL:
-// (s)byte = 2 means no value
+// horizontal/verticalMove = 2 means no value
+// other (s)byte = 0 means no value
 // int = 0 means no value
 // Vector3 = default(Vector3) means no value
 // Reference types = null means no value
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct ClientRequest // Packet size in bytes: 34 (without sequential packaging)
+public struct ClientRequest // Packet size in bytes: 38
 {
     public sbyte horizontalMove, verticalMove;
     public int invokeAbilityId,
@@ -36,18 +40,24 @@ public struct ClientRequest // Packet size in bytes: 34 (without sequential pack
     }
 }
 
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct ServerEvent // Packet size in bytes: 40 (without sequential packaging)
+[StructLayout(LayoutKind.Sequential)]
+public struct ServerEvent // Packet size in bytes: 40
 {
     public int invokeAbilityId,
         pickupItemToInvId,
         removeItemFromInvId,
-        interactWithActorId, acceptQuestId, finishQuestId;
+
+        interactWithActorId,
+
+        acceptQuestId, finishQuestId,
+        
+        receiveDamageAmount, receiveDamageDdActorId;
+    public byte receiveDamageType;
 
     public int invokeAbilityTargetActorId;
     public Vector3 invokeAbilityTargetPos;
 
-    public ServerEvent(int invokeabilityid = 0, int pickupitemtoinvid = 0, int removeitemfrominvid = 0, int interactwithactorid = 0, int acceptquestid = 0, int finishquestid = 0, int invokeabilitytargetactorid = 0, Vector3 invokeabilitytargetpos = default(Vector3))
+    public ServerEvent(int invokeabilityid = 0, int pickupitemtoinvid = 0, int removeitemfrominvid = 0, int interactwithactorid = 0, int acceptquestid = 0, int finishquestid = 0, int receivedamageamount = 0, int receivedamageddactorid = 0, byte receivedamagetype = 0, int invokeabilitytargetactorid = 0, Vector3 invokeabilitytargetpos = default(Vector3))
     {
         invokeAbilityId = invokeabilityid;
         pickupItemToInvId = pickupitemtoinvid;
@@ -55,12 +65,16 @@ public struct ServerEvent // Packet size in bytes: 40 (without sequential packag
         interactWithActorId = interactwithactorid;
         acceptQuestId = acceptquestid;
         finishQuestId = finishquestid;
+        receiveDamageAmount = receivedamageamount;
+        receiveDamageDdActorId = receivedamageddactorid;
+        receiveDamageType = receivedamagetype;
+
         invokeAbilityTargetActorId = invokeabilitytargetactorid;
         invokeAbilityTargetPos = invokeabilitytargetpos;
     }
 }
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct ServerState // Packet size in bytes: 37 (without sequential packaging)
+public struct ServerState // Packet size in bytes: 44
 {
     public Vector3 position, rotation;
     //public byte isDead; // 0 = false, 1 = true, 2 = no value
@@ -75,5 +89,27 @@ public struct ServerState // Packet size in bytes: 37 (without sequential packag
         currentLevel = currentlevel;
         currentXp = currentxp;
         this.attributes = attributes;
+    }
+}
+
+// TODO: For NetSerializer all message structs need Serializable-attributes
+public static class MessageConverter
+{
+    private static Serializer serializer = new Serializer(new Type[3] { typeof(ClientRequest), typeof(ServerEvent), typeof(ServerState) });
+
+    public static byte[] Serialize<T>(T obj)
+    {
+        using (var mStream = new MemoryStream())
+        {
+            serializer.Serialize(mStream, obj);
+            return mStream.ToArray();
+        }
+    }
+    public static T Deserialize<T>(byte[] bytes)
+    {
+        using (var mStream = new MemoryStream(bytes))
+        {
+            return (T)serializer.Deserialize(mStream);
+        }
     }
 }

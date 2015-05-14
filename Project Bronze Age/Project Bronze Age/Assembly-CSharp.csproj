@@ -61,7 +61,7 @@
      <Compile Include="Assets\Scripts\World\AttributeType.cs" />
      <Compile Include="Assets\Scripts\World\Buff.cs" />
      <Compile Include="Assets\Scripts\World\Effect.cs" />
-     <Compile Include="Assets\Scripts\World\INetworkID.cs" />
+     <Compile Include="Assets\Scripts\World\IGlobalID.cs" />
      <Compile Include="Assets\Scripts\World\InteractionActor.cs" />
      <Compile Include="Assets\Scripts\World\Inventory.cs" />
      <Compile Include="Assets\Scripts\World\Item.cs" />
@@ -164,6 +164,9 @@
  </Reference>
  <Reference Include="CaseoMaticCore">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/CaseoMaticCore.dll</HintPath>
+ </Reference>
+ <Reference Include="NetSerializer">
+ <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/NetSerializer.dll</HintPath>
  </Reference>
  <Reference Include="ProjectBronzeAge.Core">
  <HintPath>C:/Users/steelbloom/Desktop/Git/Project-Bronze-Age/Project Bronze Age/Project Bronze Age/Assets/Plugins/ProjectBronzeAge.Core.dll</HintPath>

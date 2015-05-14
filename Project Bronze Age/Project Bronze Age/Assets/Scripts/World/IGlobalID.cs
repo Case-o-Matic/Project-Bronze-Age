@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public interface INetworkID
+public interface IGlobalID
 {
-    int networkId { get; }
+    int globalId { get; }
 }
