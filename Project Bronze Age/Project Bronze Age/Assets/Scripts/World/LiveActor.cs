@@ -17,6 +17,7 @@ public class LiveActor : Actor
     public Level level;
     public Inventory inventory;
     public List<Ability> abilities;
+    public Effect stunEffect;
 
     // Controlled by buffs
     public bool isPoisonImmune, isImmortal, isStunned;
@@ -30,6 +31,27 @@ public class LiveActor : Actor
     public float totalMovementspeed { get { return attributes[AttributeType.BaseMovementspeed] + attributes[AttributeType.BonusMovementspeed]; } }
 
     public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
+
+    public void AddXp(int value)
+    {
+        // TODO: Check if server
+        if (level.currentXp + value >= level.neededXp)
+        {
+            level.currentLevel += 1;
+            level.currentXp = 0;
+            level.neededXp = level.currentLevel * Level.neededXpMultiplicator;
+
+            // Level up
+            // Send a message that new level was reached?
+            nextServerState.currentLevel = level.currentLevel;
+        }
+        else
+        {
+            level.currentXp += value;
+            // No level up
+            // Send a message with new xp value?
+        }
+    }
 
     public void ReceiveDamage(float damage, DamageType type, LiveActor dd)
     {
@@ -64,6 +86,7 @@ public class LiveActor : Actor
         if(isDead)
         {
             attributes[AttributeType.CurrentHealth] = 0;
+            // If server
             OnDeath();
         }
     }
@@ -159,13 +182,25 @@ public class LiveActor : Actor
     {
         isStunned = value;
         AbortAbility(); // Automatically abort current ability
+        if (value)
+            AddEffect(stunEffect);
+        else
+            RemoveEffect(stunEffect);
     }
-
+    protected virtual void OnDeath()
+    {
+        if(isDead)
+        {
+            // If Server
+            nextServerEvent.isDead = true;
+        }
+    }
     protected override void Awake()
     {
         InitializeAttributes();
         //ResourceSystem.Instance.ApplyResourceData(this);
         currentEffects = new List<Effect>();
+        AddXp(1);
 
         base.Awake();
     }
@@ -185,32 +220,30 @@ public class LiveActor : Actor
         if(rq.invokeAbilityId != 0)
         {
             // Check and use the ability
-            SendServerEvent(new ServerEvent(invokeabilityid: rq.invokeAbilityId, invokeabilitytargetactorid: rq.invokeAbilityTargetActorId, invokeabilitytargetpos: rq.invokeAbilityTargetPos));
+            nextServerEvent.invokeAbilityId = rq.invokeAbilityId;
+            nextServerEvent.invokeAbilityTargetActorId = rq.invokeAbilityTargetActorId;
+            nextServerEvent.invokeAbilityTargetPos = rq.invokeAbilityTargetPos;
         }
         if(rq.pickupItemToInvId != 0)
         {
             // Check and pickup item
-            SendServerEvent(new ServerEvent(pickupitemtoinvid: rq.pickupItemToInvId));
+            nextServerEvent.pickupItemToInvId = rq.pickupItemToInvId;
         }
         if(rq.removeItemFromInvId != 0)
         {
             // Check and remove item
-            SendServerEvent(new ServerEvent(removeitemfrominvid: rq.removeItemFromInvId));
+            nextServerEvent.removeItemFromInvId = rq.removeItemFromInvId;
         }
         if(rq.interactWithActorId != 0)
         {
             // Check and interact with actor
-            SendServerEvent(new ServerEvent(interactwithactorid: rq.interactWithActorId));
+            nextServerEvent.interactWithActorId = rq.interactWithActorId;
         }
 
         base.OnReceiveClientRequest(rq);
     }
     protected override void OnApplyServerEvent(ServerEvent ev)
     {
-        if(ev.receiveDamageAmount != 0)
-        {
-            // Receive damage
-        }
         if(ev.invokeAbilityId != 0)
         {
             // Find ability and invoke it with the given event parameters
@@ -230,7 +263,7 @@ public class LiveActor : Actor
 
         base.OnApplyServerEvent(ev);
     }
-    protected override void OnApplyServerState(ServerState state, float timestamp)
+    protected override void OnApplyServerState(ServerState state)
     {
         if (state.attributes != null)
         {
@@ -242,12 +275,16 @@ public class LiveActor : Actor
         if(state.currentGold != 0)
             inventory.gold = state.currentGold;
         if (state.currentLevel != 0)
+        {
             level.currentLevel = state.currentLevel;
+            level.UpdateNewLevelXp();
+        }
         if (state.currentXp != 0)
             level.currentXp = state.currentXp;
 
-        base.OnApplyServerState(state, timestamp);
+        base.OnApplyServerState(state);
     }
+
 
     private void InitializeStartValues()
     {
@@ -310,13 +347,7 @@ public class LiveActor : Actor
         }
     }
 
-    private void OnDeath()
-    {
-        if(isDead)
-        {
-            // What happens here?
-        }
-    }
+
 
     private void AddEffect(Effect effect)
     {
@@ -381,21 +412,10 @@ public class LiveActor : Actor
         public const int neededXpMultiplicator = 450; // Change this?
         public int currentLevel, currentXp, neededXp;
 
-        public bool AddXp(int value)
+        public void UpdateNewLevelXp()
         {
-            if(currentXp + value >= neededXp)
-            {
-                currentLevel += 1;
-                currentXp = 0;
-                neededXp = currentLevel * neededXpMultiplicator;
-
-                return true;
-            }
-            else
-            {
-                currentXp += value;
-                return false;
-            }
+            currentXp = 0;
+            neededXp = currentLevel * neededXpMultiplicator;
         }
     }
     [Serializable]

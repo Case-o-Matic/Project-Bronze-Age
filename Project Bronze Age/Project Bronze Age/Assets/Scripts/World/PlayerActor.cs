@@ -11,6 +11,8 @@ public class PlayerActor : LiveActor
     public List<Quest> currentQuests;
     public sbyte horizontalMove, verticalMove;
 
+    protected ClientRequest nextClientRequest;
+
     public void AcceptQuest(int id) // TODO: Use a real ID-system for quests
     {
         // Add the clone of the accepted quest to the currentQuests list
@@ -22,11 +24,9 @@ public class PlayerActor : LiveActor
 
     protected override void Update()
     {
-        // If client
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
-            SendClientRequest(new ClientRequest(hormove: (sbyte)Input.GetAxisRaw("Horizontal"), vermove: (sbyte)Input.GetAxisRaw("Vertical")));
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.S))
-            SendClientRequest(new ClientRequest(hormove: (sbyte)Input.GetAxisRaw("Horizontal"), vermove: (sbyte)Input.GetAxisRaw("Vertical")));
+        // If client and owner of actor
+        nextClientRequest.horizontalMove = (sbyte)Input.GetAxisRaw("Horizontal");
+        nextClientRequest.verticalMove = (sbyte)Input.GetAxisRaw("Vertical");
 
         base.Update();
     }
@@ -44,9 +44,9 @@ public class PlayerActor : LiveActor
 
         base.OnApplyServerEvent(ev);
     }
-    protected override void OnApplyServerState(ServerState state, float timestamp)
+    protected override void OnApplyServerState(ServerState state)
     {
-        base.OnApplyServerState(state, timestamp);
+        base.OnApplyServerState(state);
     }
     protected override void OnReceiveClientRequest(ClientRequest rq)
     {
@@ -60,6 +60,19 @@ public class PlayerActor : LiveActor
         }
 
         base.OnReceiveClientRequest(rq);
+    }
+
+    protected override void OnSendNetworkMessage()
+    {
+        // If client
+        SendClientRequest();
+        base.OnSendNetworkMessage();
+    }
+    protected override void OnDeath()
+    {
+        // Is really nothing happening if a player dies?
+        // If owner of actor: Should the death screen, respawn info and other things get initiated here?
+        base.OnDeath();
     }
 
     // If this is only used once for the movement, use the method body code and remove this method
@@ -84,5 +97,10 @@ public class PlayerActor : LiveActor
                 FinishQuest(currentQuests[i].globalId);
             }
         }
+    }
+
+    private void SendClientRequest()
+    {
+        // TODO: Check if client and if this actor is the local player and then send nextClientRequest
     }
 }

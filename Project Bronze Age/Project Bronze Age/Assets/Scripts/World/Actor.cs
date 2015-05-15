@@ -9,7 +9,9 @@ public abstract class Actor : MonoBehaviour, IGlobalID
 {
     public const sbyte networkMessageSByteNoValue = 2;
     public const int interpolationTimeDelta = 100, interpolationBufferLength = 20;
-    public const float interpolationBacktime = 0.1f;
+    public const float interpolationBacktime = 0.1f,
+        // Client sent kilobytes per second: 0,76kb (ClientRequest), Server sent kilobytes per second: 0,26kb (ServerEvent), 0,32kb
+        networkClientSendRateInterval = 50, networkServerSendRateInterval = 150; // CHECK IF ONE SEC = 1000 OR 100 (50/5, 150/15)! Are these send rates good?
     
     //[SerializeField]
     private int _networkId;
@@ -17,8 +19,8 @@ public abstract class Actor : MonoBehaviour, IGlobalID
 
     // Networking
     //protected ClientRequest clientNextRequest;
-    //protected ServerEvent serverNextEvent;
-    //protected ServerState serverNextState;
+    protected ServerEvent nextServerEvent;
+    protected ServerState nextServerState;
 
     private InterpolationState[] interpolationStateBuffer;
     private int timestampCount;
@@ -36,10 +38,17 @@ public abstract class Actor : MonoBehaviour, IGlobalID
 
     protected virtual void Start()
     {
+        print(Marshal.SizeOf(new ServerState()));
     }
 
     protected virtual void Update()
     {
+        // If server
+        nextServerState.timestamp = 1; // Findout timestamp
+        nextServerState.position = transform.position;
+        nextServerState.rotation = transform.rotation.eulerAngles;
+
+        // If client
         PerformInterpolation(1 /* Find client timestamp (like Network.time) */);
     }
 
@@ -56,18 +65,14 @@ public abstract class Actor : MonoBehaviour, IGlobalID
     }
 
     // Client
-    protected void SendClientRequest(ClientRequest rq)
-    {
-        // TODO: Check if client and "this == local player (owner)" and then send the client request
-    }
-    // Client
     protected virtual void OnApplyServerEvent(ServerEvent ev)
     {
         
     }
     // Client
-    protected virtual void OnApplyServerState(ServerState state, float timestamp)
+    protected virtual void OnApplyServerState(ServerState state)
     {
+        float timestamp = 1;
         if (state.position != default(Vector3)) // if the pos. isnt default the rot. isnt too
         {
             for (int i = interpolationStateBuffer.Length - 1; i >= 1; i--)
@@ -86,25 +91,28 @@ public abstract class Actor : MonoBehaviour, IGlobalID
             //}
         }
     }
-
-    // Server
-    protected void SendServerEvent(ServerEvent ev)
-    {
-        // Check if server and then send the server command
-    }
-    // Server
-    protected void SendServerState(ServerState state)
-    {
-        // TODO: Check if server and then send the server command
-    }
     // Server
     protected virtual void OnReceiveClientRequest(ClientRequest rq)
     {
 
     }
 
-    private void OnSerializeBitStream(BitStream stream, NetworkMessageInfo info)
+    protected virtual void OnSendNetworkMessage()
     {
+        // If server
+        SendServerEvent();
+        SendServerState();
+    }
+
+    // Server
+    private void SendServerEvent()
+    {
+        // Check if server and then send nextServerEvent
+    }
+    // Server
+    private void SendServerState()
+    {
+        // TODO: Check if server and then send nextServerState
     }
 
     private void PerformInterpolation(float clienttimestamp)
