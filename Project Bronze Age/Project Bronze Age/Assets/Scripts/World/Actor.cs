@@ -7,23 +7,22 @@ using UnityEngine;
 
 public abstract class Actor : MonoBehaviour, IGlobalID
 {
-    public const sbyte networkMessageSByteNoValue = 2;
     public const int interpolationTimeDelta = 100, interpolationBufferLength = 20;
     public const float interpolationBacktime = 0.1f,
-        // Client sent kilobytes per second: 0,76kb (ClientRequest), Server sent kilobytes per second: 0,26kb (ServerEvent), 0,32kb
-        networkClientSendRateInterval = 50, networkServerSendRateInterval = 150; // CHECK IF ONE SEC = 1000 OR 100 (50/5, 150/15)! Are these send rates good?
+        // Client sent kilobytes (15 messages) per second: 0,57kb (ClientRequest), Server sent kilobytes (15 messages) per second: 0,6kb (ServerEvent), 0,72kb (ServerState)
+        networkClientSendRateInterval = 0.066f, networkServerSendRateInterval = 0.066f; // 15ms/15ms! Are these send rates good?
     
     //[SerializeField]
     private int _networkId;
     public string actorName;
 
     // Networking
-    //protected ClientRequest clientNextRequest;
     protected ServerEvent nextServerEvent;
     protected ServerState nextServerState;
 
     private InterpolationState[] interpolationStateBuffer;
     private int timestampCount;
+    private float serverMessageSendRateTime;
 
     public int globalId
     {
@@ -32,13 +31,12 @@ public abstract class Actor : MonoBehaviour, IGlobalID
 
     protected virtual void Awake()
     {
-        _networkId = GetHashCode();
         interpolationStateBuffer = new InterpolationState[interpolationBufferLength];
     }
 
     protected virtual void Start()
     {
-        print(Marshal.SizeOf(new ServerState()));
+
     }
 
     protected virtual void Update()
@@ -47,6 +45,16 @@ public abstract class Actor : MonoBehaviour, IGlobalID
         nextServerState.timestamp = 1; // Findout timestamp
         nextServerState.position = transform.position;
         nextServerState.rotation = transform.rotation.eulerAngles;
+
+        // If Server
+        serverMessageSendRateTime += Time.deltaTime;
+        if(serverMessageSendRateTime >= networkClientSendRateInterval)
+        {
+            serverMessageSendRateTime = 0;
+
+            SendServerEvent();
+            SendServerState();
+        }
 
         // If client
         PerformInterpolation(1 /* Find client timestamp (like Network.time) */);

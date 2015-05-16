@@ -11,7 +11,10 @@ public class PlayerActor : LiveActor
     public List<Quest> currentQuests;
     public sbyte horizontalMove, verticalMove;
 
+    // Network
     protected ClientRequest nextClientRequest;
+    private float clientMessageSendRateTime;
+
 
     public void AcceptQuest(int id) // TODO: Use a real ID-system for quests
     {
@@ -27,6 +30,14 @@ public class PlayerActor : LiveActor
         // If client and owner of actor
         nextClientRequest.horizontalMove = (sbyte)Input.GetAxisRaw("Horizontal");
         nextClientRequest.verticalMove = (sbyte)Input.GetAxisRaw("Vertical");
+
+        // If client and owner of actor
+        clientMessageSendRateTime += Time.deltaTime;
+        if (clientMessageSendRateTime >= networkClientSendRateInterval)
+        {
+            clientMessageSendRateTime = 0;
+            SendClientRequest();
+        }
 
         base.Update();
     }
@@ -50,24 +61,18 @@ public class PlayerActor : LiveActor
     }
     protected override void OnReceiveClientRequest(ClientRequest rq)
     {
-        if (rq.horizontalMove != Actor.networkMessageSByteNoValue)
-            horizontalMove = rq.horizontalMove;
-        if (rq.verticalMove != Actor.networkMessageSByteNoValue)
-            verticalMove = rq.verticalMove;
+        horizontalMove = rq.horizontalMove;
+        verticalMove = rq.verticalMove;
         if(rq.acceptQuestId != 0)
         {
-            // Check quest and if available/acceptable accept it and send a ServerEvent back
+            // Check quest and accept if good
+            // If good
+            nextServerEvent.acceptQuestId = rq.acceptQuestId;
         }
 
         base.OnReceiveClientRequest(rq);
     }
 
-    protected override void OnSendNetworkMessage()
-    {
-        // If client
-        SendClientRequest();
-        base.OnSendNetworkMessage();
-    }
     protected override void OnDeath()
     {
         // Is really nothing happening if a player dies?
