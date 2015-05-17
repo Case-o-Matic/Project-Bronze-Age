@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Other\Language\Language.cs" />
      <Compile Include="Assets\Scripts\Other\Systems\GameManager.cs" />
      <Compile Include="Assets\Scripts\Other\Systems\LanguageSystem.cs" />
+     <Compile Include="Assets\Scripts\Other\Systems\NetworkSystem.cs" />
      <Compile Include="Assets\Scripts\Other\Systems\SettingsSystem.cs" />
      <Compile Include="Assets\Scripts\Other\Systems\UserSystem.cs" />
      <Compile Include="Assets\Scripts\World\AIAction.cs" />

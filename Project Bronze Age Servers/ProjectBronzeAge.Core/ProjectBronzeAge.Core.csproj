@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NetSerializer">
+      <HintPath>..\..\..\..\..\Downloads\netserializer-3.0\netserializer-3.0\NetSerializer\bin\Release\NetSerializer.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net35\protobuf-net.dll</HintPath>
     </Reference>
@@ -48,7 +51,6 @@
     <Compile Include="Communication\IPackage.cs" />
     <Compile Include="Communication\PackageConverter.cs" />
     <Compile Include="Communication\Play\ClientPackages.cs" />
-    <Compile Include="Communication\Play\Enums.cs" />
     <Compile Include="Communication\Play\ServerPackages.cs" />
     <Compile Include="GameDataUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,7 +15,6 @@ public class PlayerActor : LiveActor
     protected ClientRequest nextClientRequest;
     private float clientMessageSendRateTime;
 
-
     public void AcceptQuest(int id) // TODO: Use a real ID-system for quests
     {
         // Add the clone of the accepted quest to the currentQuests list
@@ -59,19 +58,6 @@ public class PlayerActor : LiveActor
     {
         base.OnApplyServerState(state);
     }
-    protected override void OnReceiveClientRequest(ClientRequest rq)
-    {
-        horizontalMove = rq.horizontalMove;
-        verticalMove = rq.verticalMove;
-        if(rq.acceptQuestId != 0)
-        {
-            // Check quest and accept if good
-            // If good
-            nextServerEvent.acceptQuestId = rq.acceptQuestId;
-        }
-
-        base.OnReceiveClientRequest(rq);
-    }
 
     protected override void OnDeath()
     {
@@ -88,20 +74,6 @@ public class PlayerActor : LiveActor
         newDir *= totalMovementspeed / 2;
 
         return newDir;
-    }
-
-    private void UpdateQuests()
-    {
-        for (int i = 0; i < currentQuests.Count; i++)
-        {
-            if (currentQuests[i].CheckQuestCompleted(this))
-            {
-                // Update the next client request to finish quest
-
-                // Send command for rewards?
-                FinishQuest(currentQuests[i].globalId);
-            }
-        }
     }
 
     private void SendClientRequest()

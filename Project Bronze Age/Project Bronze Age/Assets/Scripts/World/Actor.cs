@@ -10,19 +10,15 @@ public abstract class Actor : MonoBehaviour, IGlobalID
     public const int interpolationTimeDelta = 100, interpolationBufferLength = 20;
     public const float interpolationBacktime = 0.1f,
         // Client sent kilobytes (15 messages) per second: 0,57kb (ClientRequest), Server sent kilobytes (15 messages) per second: 0,6kb (ServerEvent), 0,72kb (ServerState)
-        networkClientSendRateInterval = 0.066f, networkServerSendRateInterval = 0.066f; // 15ms/15ms! Are these send rates good?
+        networkClientSendRateInterval = 0.066f; // 15ms/15ms! Are these send rates good?
     
     //[SerializeField]
     private int _networkId;
     public string actorName;
 
-    // Networking
-    protected ServerEvent nextServerEvent;
-    protected ServerState nextServerState;
-
     private InterpolationState[] interpolationStateBuffer;
     private int timestampCount;
-    private float serverMessageSendRateTime;
+    private float clientTimestamp;
 
     public int globalId
     {
@@ -41,23 +37,12 @@ public abstract class Actor : MonoBehaviour, IGlobalID
 
     protected virtual void Update()
     {
-        // If server
-        nextServerState.timestamp = 1; // Findout timestamp
-        nextServerState.position = transform.position;
-        nextServerState.rotation = transform.rotation.eulerAngles;
-
-        // If Server
-        serverMessageSendRateTime += Time.deltaTime;
-        if(serverMessageSendRateTime >= networkClientSendRateInterval)
-        {
-            serverMessageSendRateTime = 0;
-
-            SendServerEvent();
-            SendServerState();
-        }
+        clientTimestamp += Time.deltaTime;
+        if (clientTimestamp > 50)
+            clientTimestamp = 0;
 
         // If client
-        PerformInterpolation(1 /* Find client timestamp (like Network.time) */);
+        PerformInterpolation(clientTimestamp);
     }
 
     protected virtual void FixedUpdate()
@@ -80,7 +65,6 @@ public abstract class Actor : MonoBehaviour, IGlobalID
     // Client
     protected virtual void OnApplyServerState(ServerState state)
     {
-        float timestamp = 1;
         if (state.position != default(Vector3)) // if the pos. isnt default the rot. isnt too
         {
             for (int i = interpolationStateBuffer.Length - 1; i >= 1; i--)
@@ -88,7 +72,7 @@ public abstract class Actor : MonoBehaviour, IGlobalID
                 interpolationStateBuffer[i] = interpolationStateBuffer[i - 1];
             }
 
-            InterpolationState newState = new InterpolationState(state.position, state.rotation, timestamp);
+            InterpolationState newState = new InterpolationState(state.position, state.rotation, state.timestamp);
             interpolationStateBuffer[0] = newState;
 
             timestampCount = Mathf.Min(timestampCount + 1, interpolationStateBuffer.Length);
@@ -98,29 +82,6 @@ public abstract class Actor : MonoBehaviour, IGlobalID
             //        Debug.Log("Inconsistent state found, reshuffling...");
             //}
         }
-    }
-    // Server
-    protected virtual void OnReceiveClientRequest(ClientRequest rq)
-    {
-
-    }
-
-    protected virtual void OnSendNetworkMessage()
-    {
-        // If server
-        SendServerEvent();
-        SendServerState();
-    }
-
-    // Server
-    private void SendServerEvent()
-    {
-        // Check if server and then send nextServerEvent
-    }
-    // Server
-    private void SendServerState()
-    {
-        // TODO: Check if server and then send nextServerState
     }
 
     private void PerformInterpolation(float clienttimestamp)

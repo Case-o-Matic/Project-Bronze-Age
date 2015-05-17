@@ -6,66 +6,86 @@ using System.Text;
 
 namespace ProjectBronzeAge.Core.Communication.Play
 {
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)] // Find out pack value
     [Serializable]
-    public struct ServerPlayStatePackage
+    public struct ServerPlayStatePackage : IPackage
     {
-        public string actorId;
-        public ServerPlayStatePackageType type;
-
+        public int actorId;
         public float posX, posY, posZ;
         public float rotX, rotY, rotZ;
 
-        public string[] abilities, buffs;
-        public int[] attributes;
+        public bool isPoisonImmune, isImmortal, isStunned;
+        public float[] attributes;
 
-        public ServerPlayStatePackage(string actorid, ServerPlayStatePackageType type, float posx, float posy, float posz, float rotx, float roty, float rotz, string[] abilities, string[] buffs, int[] attributes)
+        public ServerPlayStatePackage(int actorid, float posx, float posy, float posz, float rotx, float roty, float rotz, bool ispoisonimmune, bool isimmortal, bool isstunned, float[] attributes)
         {
             this.actorId = actorid;
-            this.type = type;
             this.posX = posx;
             this.posY = posy;
             this.posZ = posz;
             this.rotX = rotx;
             this.rotY = roty;
             this.rotZ = rotz;
-            this.abilities = abilities;
-            this.buffs = buffs;
+            this.isPoisonImmune = ispoisonimmune;
+            this.isImmortal = isimmortal;
+            this.isStunned = isstunned;
             this.attributes = attributes;
         }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     [Serializable]
-    public struct ServerPlayUseAbilityPackage
+    public struct ServerPlayEventPackage : IPackage
     {
-        public string casterActorId, usedAbility;
-        public float targetPosX, targetPosY, targetPosZ;
-        public string targetActorId;
+        public int actorId;
 
-        public ServerPlayUseAbilityPackage(string casteractorid, string usedability, float targetposx, float targetposy, float targetposz, string targetactorid)
+        public int acceptQuestId, finishQuestId;
+        public int pickUpItemId, removeItemId;
+
+        public int usedAbilityId;
+        public float abilityTargetPosX, abilityTargetPosY, abilityTargetPosZ;
+        public int abilityTargetActorId;
+
+        public ServerPlayEventPackage(int actorid, int acceptquestid = 0, int finishquestid = 0, int pickupitemid = 0, int removeitemid = 0, int usedabilityid = 0, float abilitytargetposx = 0, float abilitytargetposy = 0, float abilitytargetposz = 0, int abilitytargetactorid = 0)
         {
-            this.casterActorId = casteractorid;
-            this.usedAbility = usedability;
-            this.targetPosX = targetposx;
-            this.targetPosY = targetposy;
-            this.targetPosZ = targetposz;
-            this.targetActorId = targetactorid;
+            this.actorId = actorid;
+            this.acceptQuestId = acceptquestid;
+            this.finishQuestId = finishquestid;
+            this.pickUpItemId = pickupitemid;
+            this.removeItemId = removeitemid;
+            this.usedAbilityId = usedabilityid;
+            this.abilityTargetPosX = abilitytargetposx;
+            this.abilityTargetPosY = abilitytargetposy;
+            this.abilityTargetPosZ = abilitytargetposz;
+            this.abilityTargetActorId = abilitytargetactorid;
         }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     [Serializable]
-    public struct ServerPlayItemStatePackage
+    public struct ServerWorldSnapshotPackage : IPackage
     {
-        public string affectedActorId, itemName;
-        public bool itemAdded;
+        public ActorInfo[] players;
+        public ActorInfo[] npcs;
 
-        public ServerPlayItemStatePackage(string affectedactorid, string itemname, bool itemadded)
+        [StructLayout(LayoutKind.Sequential)]
+        [Serializable]
+        public struct ActorInfo
         {
-            this.affectedActorId = affectedactorid;
-            this.itemName = itemname;
-            this.itemAdded = itemadded;
+            public int actorResourceId, actorNetworkId;
+            public float posX, posY, posZ, rotX, rotY, rotZ;
+
+            public ActorInfo(int actorresourceid, int actornetworkid, float posx, float posy, float posz, float rotx, float roty, float rotz)
+            {
+                this.actorResourceId = actorresourceid;
+                this.actorNetworkId = actornetworkid;
+                this.posX = posx;
+                this.posY = posy;
+                this.posZ = posz;
+                this.rotX = rotx;
+                this.rotY = roty;
+                this.rotZ = rotz;
+            }
         }
     }
 }

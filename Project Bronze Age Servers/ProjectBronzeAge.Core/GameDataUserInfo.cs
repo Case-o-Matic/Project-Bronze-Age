@@ -21,6 +21,7 @@ namespace ProjectBronzeAge.Core
         {
             public string name;
 
+            public string currentWorldInstance;
             public float posX, posY, posZ;
             public string[] abilities, items;
 
@@ -29,9 +30,10 @@ namespace ProjectBronzeAge.Core
 
             public int level;
 
-            public GameDataUserCharacterInfo(string name, float posx, float posy, float posz, string[] abilities, string[] items, bool genderstyle, int hairstyleindex, int bodystyleindex,  int level)
+            public GameDataUserCharacterInfo(string name, string currentworldinstance, float posx, float posy, float posz, string[] abilities, string[] items, bool genderstyle, int hairstyleindex, int bodystyleindex,  int level)
             {
                 this.name = name;
+                this.currentWorldInstance = currentworldinstance;
                 this.posX = posx;
                 this.posY = posy;
                 this.posZ = posz;

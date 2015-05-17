@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     public GamePlayMode playMode;
     public ServerPlayInfo currentServerPlayInfo;
-    public GameNetworkType networkType;
 
     void Awake()
     {
@@ -21,18 +20,15 @@ public class GameManager : MonoBehaviour
     public void OnPlayLocal()
     {
         playMode = GamePlayMode.PlaysLocal;
-        networkType = GameNetworkType.Client; // Or server/new network type?
         currentServerPlayInfo = new ServerPlayInfo("Local", "", 0, 0, new byte[0]);
     }
     public void OnJoinServer(ServerPlayInfo serverplayinfo)
     {
         playMode = GamePlayMode.PlaysOnServer;
-        networkType = GameNetworkType.Client;
         currentServerPlayInfo = serverplayinfo;
     }
     public void OnHostServer(ServerPlayInfo serverplayinfo)
     {
-        networkType = GameNetworkType.Server;
         currentServerPlayInfo = serverplayinfo;
     }
 }
@@ -41,14 +37,8 @@ public class GameManager : MonoBehaviour
 public enum GamePlayMode
 {
     NotPlaying,
-    NotPlayingServer,
     PlaysOnServer,
     PlaysLocal
-}
-public enum GameNetworkType
-{
-    Client,
-    Server
 }
 [Serializable]
 public struct ServerPlayInfo

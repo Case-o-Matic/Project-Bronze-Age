@@ -17,7 +17,8 @@ public class LiveActor : Actor
     public Level level;
     public Inventory inventory;
     public List<Ability> abilities;
-    public Effect stunEffect;
+
+    public Effect poisonImmunityEffect, immortalityEffect, stunEffect;
 
     // Controlled by buffs
     public bool isPoisonImmune, isImmortal, isStunned;
@@ -32,9 +33,25 @@ public class LiveActor : Actor
 
     public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
 
+    public void SetPosionImmunity(bool value)
+    {
+        isPoisonImmune = value;
+        if (isPoisonImmune)
+            AddEffect(poisonImmunityEffect);
+        else
+            RemoveEffect(poisonImmunityEffect);
+    }
+    public void SetImmortality(bool value)
+    {
+        isImmortal = value;
+        if (isImmortal)
+            AddEffect(immortalityEffect);
+        else
+            RemoveEffect(immortalityEffect);
+    }
+
     public void AddXp(int value)
     {
-        // TODO: Check if server
         if (level.currentXp + value >= level.neededXp)
         {
             level.currentLevel += 1;
@@ -42,14 +59,11 @@ public class LiveActor : Actor
             level.neededXp = level.currentLevel * Level.neededXpMultiplicator;
 
             // Level up
-            // Send a message that new level was reached?
-            nextServerState.currentLevel = level.currentLevel;
         }
         else
         {
             level.currentXp += value;
             // No level up
-            // Send a message with new xp value?
         }
     }
 
@@ -182,18 +196,14 @@ public class LiveActor : Actor
     {
         isStunned = value;
         AbortAbility(); // Automatically abort current ability
-        if (value)
+        if (isStunned)
             AddEffect(stunEffect);
         else
             RemoveEffect(stunEffect);
     }
     protected virtual void OnDeath()
     {
-        if(isDead)
-        {
-            // If Server
-            nextServerEvent.isDead = true;
-        }
+
     }
     protected override void Awake()
     {
@@ -215,33 +225,6 @@ public class LiveActor : Actor
         base.Update();
     }
 
-    protected override void OnReceiveClientRequest(ClientRequest rq)
-    {
-        if(rq.invokeAbilityId != 0)
-        {
-            // Check and use the ability
-            nextServerEvent.invokeAbilityId = rq.invokeAbilityId;
-            nextServerEvent.invokeAbilityTargetActorId = rq.invokeAbilityTargetActorId;
-            nextServerEvent.invokeAbilityTargetPos = rq.invokeAbilityTargetPos;
-        }
-        if(rq.pickupItemToInvId != 0)
-        {
-            // Check and pickup item
-            nextServerEvent.pickupItemToInvId = rq.pickupItemToInvId;
-        }
-        if(rq.removeItemFromInvId != 0)
-        {
-            // Check and remove item
-            nextServerEvent.removeItemFromInvId = rq.removeItemFromInvId;
-        }
-        if(rq.interactWithActorId != 0)
-        {
-            // Check and interact with actor
-            nextServerEvent.interactWithActorId = rq.interactWithActorId;
-        }
-
-        base.OnReceiveClientRequest(rq);
-    }
     protected override void OnApplyServerEvent(ServerEvent ev)
     {
         if(ev.invokeAbilityId != 0)
@@ -284,7 +267,6 @@ public class LiveActor : Actor
 
         base.OnApplyServerState(state);
     }
-
 
     private void InitializeStartValues()
     {
