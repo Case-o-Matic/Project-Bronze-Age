@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\ProjectBronzeAge.Data\ProjectBronzeAge.Data.csproj">
       <Project>{2da60e3d-32a2-4708-9e8c-b1d60a1aff87}</Project>
       <Name>ProjectBronzeAge.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectBronzeAge.Interaction\ProjectBronzeAge.Interaction.csproj">
+      <Project>{72bb2a5c-f194-4ff3-8d04-eb661c15c10c}</Project>
+      <Name>ProjectBronzeAge.Interaction</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

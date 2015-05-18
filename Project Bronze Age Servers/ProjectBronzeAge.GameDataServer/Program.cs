@@ -20,7 +20,7 @@ namespace ProjectBronzeAge.GameServer
         {
             try
             {
-                Console.WriteLine("Project Bronze Age game server (version: " + version + ")");
+                Console.WriteLine("Project Bronze Age GameData-server (version: " + version + ")");
 
                 #region Port
                 setport:
@@ -54,7 +54,7 @@ namespace ProjectBronzeAge.GameServer
                 Console.WriteLine("Initializing server...");
                 serverSocket = new ServerSocket(port);
                 serverSocket.Start();
-                serverSocket.OnReceiveMessage += Socket_OnReceiveMessage;
+                serverSocket.OnReceiveClientMessage += Socket_OnReceiveMessage;
                 Console.WriteLine("Initialized the server, use \"?\" for help");
 
                 while (true)

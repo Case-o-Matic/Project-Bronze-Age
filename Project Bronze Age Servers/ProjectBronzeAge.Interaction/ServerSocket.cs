@@ -9,52 +9,39 @@ using System.Threading.Tasks;
 
 namespace ProjectBronzeAge.Interaction
 {
-    public class ServerSocket
+    public class ServerSocket : BaseSocket
     {
-        public delegate void OnReceiveMessageHandler(int connectionid, byte[] bytes);
-        public event OnReceiveMessageHandler OnReceiveMessage;
+        public delegate void OnReceiveClientMessageHandler(int connectionid, byte[] bytes);
+        public event OnReceiveClientMessageHandler OnReceiveClientMessage;
 
-        public readonly IPEndPoint localEndPoint;
-
-        private Socket socket;
         private Thread acceptConnectionsThread;
         private Dictionary<int, SocketThreadInfo> connections;
-        private Log log;
-
-        public bool isOnline { get; private set; }
 
         public ServerSocket(int port)
+            : base(port)
         {
-            localEndPoint = new IPEndPoint(IPAddress.Any, port);
-
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             acceptConnectionsThread = new Thread(AcceptConnections);
             connections = new Dictionary<int, SocketThreadInfo>();
-            log = new Log(true);
         }
 
-        public void Start()
+        public override void Start()
         {
-            isOnline = true;
-
-            socket.Bind(localEndPoint);
             acceptConnectionsThread.Start();
-
-            log.WriteLine("Started the server on " + localEndPoint.ToString() + ".");
+            base.Start();
         }
-        public void Stop()
+        public override void Stop()
         {
-            socket.Disconnect(true);
-            isOnline = false;
+            foreach (var connection in connections.Values)
+                connection.socket.Close();
+            connections.Clear();
 
-            log.WriteLine("Stopped the server.");
-            log.SaveLog("server.log", true);
+            base.Stop();
         }
 
         public void SendMessage(int socketid, byte[] bytes)
         {
             byte[] msgBytes = Crypto.EncryptBytes(bytes);
-            /*var receivedBytes = */connections[socketid].socket.Send(msgBytes);
+            /*var sentBytes = */connections[socketid].socket.Send(msgBytes);
         }
 
         private void AcceptConnections()
@@ -80,8 +67,8 @@ namespace ProjectBronzeAge.Interaction
             {
                 var buffer = new byte[2048];
                 /*var receivedBytes = */sock.Receive(buffer);
-                if (OnReceiveMessage != null)
-                    OnReceiveMessage((int)connectionid, Crypto.DecryptBytes(buffer));
+                if (OnReceiveClientMessage != null)
+                    OnReceiveClientMessage((int)connectionid, Crypto.DecryptBytes(buffer));
                 log.WriteLine("Received a message from " + sock.RemoteEndPoint.ToString() + " (connection-ID: " + connectionid + ")");
             }
         }

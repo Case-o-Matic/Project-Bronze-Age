@@ -6,6 +6,7 @@ using System.Text;
 namespace ProjectBronzeAge.Core.Communication
 {
     #region Client
+    [Serializable]
     public enum ClientDataAuthPackageType : byte
     {
         Login = 1,
@@ -13,6 +14,7 @@ namespace ProjectBronzeAge.Core.Communication
         Register = 3,
         Unregister = 4
     }
+    [Serializable]
     public enum ClientDataChangePackageType : byte
     {
         GetData = 1,
@@ -23,6 +25,7 @@ namespace ProjectBronzeAge.Core.Communication
     #endregion
 
     #region Server
+    [Serializable]
     public enum ServerDataAuthPackageType : byte
     {
         LoginValid = 1,
@@ -30,6 +33,7 @@ namespace ProjectBronzeAge.Core.Communication
         Registered = 3,
         Unregistered = 4
     }
+    [Serializable]
     public enum ServerDataChangePackageType : byte
     {
         Data = 1,

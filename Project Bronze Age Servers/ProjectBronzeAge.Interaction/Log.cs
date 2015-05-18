@@ -9,18 +9,22 @@ namespace ProjectBronzeAge.Interaction
 {
     public class Log
     {
-        public bool setDateTimeStd;
+        public bool setDateTimeStd, toConsole;
         private List<string> messages;
 
-        public Log(bool setdatetimestd)
+        public Log(bool setdatetimestd, bool toconsole)
         {
             setDateTimeStd = setdatetimestd;
+            toConsole = toconsole;
             messages = new List<string>();
         }
 
         public void WriteLine(string msg)
         {
-            messages.Add((setDateTimeStd ? DateTime.Now.ToString() + ": " : "") + msg);
+            var text = (setDateTimeStd ? DateTime.Now.ToString() + ": " : "") + msg;
+            messages.Add(text);
+            if (toConsole)
+                Console.WriteLine(text);
         }
         public void SaveLog(string filepath, bool append)
         {

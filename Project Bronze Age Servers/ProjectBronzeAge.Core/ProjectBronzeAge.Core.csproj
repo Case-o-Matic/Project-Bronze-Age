@@ -52,6 +52,9 @@
     <Compile Include="Communication\PackageConverter.cs" />
     <Compile Include="Communication\Play\ClientPackages.cs" />
     <Compile Include="Communication\Play\ServerPackages.cs" />
+    <Compile Include="Communication\Resource\ClientPackages.cs" />
+    <Compile Include="Communication\Resource\Enums.cs" />
+    <Compile Include="Communication\Resource\ServerPackages.cs" />
     <Compile Include="GameDataUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ProjectBronzeAge.Data")]
+[assembly: AssemblyTitle("ProjectBronzeAge.ResourceServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Case-o-Matic")]
-[assembly: AssemblyProduct("ProjectBronzeAge.Data")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("ProjectBronzeAge.ResourceServer")]
+[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3e0a438b-8198-4fb2-92a4-74940a4b2be4")]
+[assembly: Guid("7b4f19c5-0a36-49b6-ad3d-3fd4e64a3f00")]
 
 // Version information for an assembly consists of the following four values:
 //
