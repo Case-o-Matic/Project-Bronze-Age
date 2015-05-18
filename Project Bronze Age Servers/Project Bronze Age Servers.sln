@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBronzeAge.GamePlaySe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBronzeAge.Data", "ProjectBronzeAge.Data\ProjectBronzeAge.Data.csproj", "{2DA60E3D-32A2-4708-9E8C-B1D60A1AFF87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBronzeAge.Interaction", "ProjectBronzeAge.Interaction\ProjectBronzeAge.Interaction.csproj", "{72BB2A5C-F194-4FF3-8D04-EB661C15C10C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2DA60E3D-32A2-4708-9E8C-B1D60A1AFF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DA60E3D-32A2-4708-9E8C-B1D60A1AFF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DA60E3D-32A2-4708-9E8C-B1D60A1AFF87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BB2A5C-F194-4FF3-8D04-EB661C15C10C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BB2A5C-F194-4FF3-8D04-EB661C15C10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BB2A5C-F194-4FF3-8D04-EB661C15C10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BB2A5C-F194-4FF3-8D04-EB661C15C10C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
