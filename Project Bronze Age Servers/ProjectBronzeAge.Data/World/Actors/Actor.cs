@@ -17,7 +17,7 @@ namespace ProjectBronzeAge.Data
         private Vector3 _position;
         private Vector3 _rotation;
 
-        public bool isDirtyState
+        public bool isStateDirty
         {
             get;
             private set;
@@ -56,7 +56,7 @@ namespace ProjectBronzeAge.Data
 
         public override void Update(float deltatime)
         {
-            if (isDirtyState)
+            if (isStateDirty)
             {
                 nextStatePackage.posX = position.x;
                 nextStatePackage.posY = position.y;
@@ -74,7 +74,7 @@ namespace ProjectBronzeAge.Data
 
         protected void SetDirtyState(bool value)
         {
-            isDirtyState = true;
+            isStateDirty = true;
         }
     }
 }

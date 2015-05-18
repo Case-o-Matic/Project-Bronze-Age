@@ -28,9 +28,9 @@ namespace ProjectBronzeAge.Core
             public bool genderStyle; // True = male
             public int hairStyleIndex, bodyStyleIndex;
 
-            public int level;
+            public int currentLevel, currentXp;
 
-            public GameDataUserCharacterInfo(string name, string currentworldinstance, float posx, float posy, float posz, string[] abilities, string[] items, bool genderstyle, int hairstyleindex, int bodystyleindex,  int level)
+            public GameDataUserCharacterInfo(string name, string currentworldinstance, float posx, float posy, float posz, string[] abilities, string[] items, bool genderstyle, int hairstyleindex, int bodystyleindex,  int currentlevel, int currentxp)
             {
                 this.name = name;
                 this.currentWorldInstance = currentworldinstance;
@@ -42,7 +42,8 @@ namespace ProjectBronzeAge.Core
                 this.genderStyle = genderstyle;
                 this.hairStyleIndex = hairstyleindex;
                 this.bodyStyleIndex = bodystyleindex;
-                this.level = level;
+                this.currentLevel = currentlevel;
+                this.currentXp = currentxp;
             }
 
             public static byte[] ToBytes(GameDataUserCharacterInfo character)

@@ -18,6 +18,10 @@ namespace ProjectBronzeAge.Data
         public bool isPoisonImmune, isImmortal, isStunned;
         public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
 
+        public void UseAbility(Ability ability, AbilityInvokationInfo invokationinfo)
+        {
+            // Implement this
+        }
         public void ReceiveDamage(float damage, DamageType dt, LiveActor dd)
         {
             if (isDead)
@@ -38,6 +42,7 @@ namespace ProjectBronzeAge.Data
 
         public void ApplyBuff(Buff buff)
         {
+            // Use parameters (isStackable/...)
             if(!buffs.Contains(buff))
             {
                 buff.OnApply(this);
@@ -48,8 +53,11 @@ namespace ProjectBronzeAge.Data
         {
             if(buffs.Contains(buff))
             {
-                buff.OnUnapply(this);
-                buffs.Remove(buff);
+                if ((buff.isUnremovable && force) || !buff.isUnremovable)
+                {
+                    buff.OnUnapply(this);
+                    buffs.Remove(buff);
+                }
             }
         }
 
