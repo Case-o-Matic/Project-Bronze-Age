@@ -14,7 +14,7 @@ namespace ProjectBronzeAge.Data
         public string name;
         public List<PlayerActor> players;
         public List<int> npcIds;
-        public List<NpcActor> npcs;
+        public List<NPCActor> npcs;
         // Add static actors (chests/doors/...)
         // Add navmesh info
 
@@ -41,7 +41,7 @@ namespace ProjectBronzeAge.Data
             updateTimer.Elapsed += updateTimer_Elapsed;
         }
 
-        public void Initialize(List<NpcActor> allnpcs)
+        public void Initialize(List<NPCActor> allnpcs)
         {
             npcs = allnpcs;
             foreach (var npc in npcs)
@@ -59,7 +59,7 @@ namespace ProjectBronzeAge.Data
             }
         }
 
-        public WorldInstance Clone()
+        public WorldInstance Create()
         {
             return new WorldInstance() { name = name, npcIds = npcIds };
         }

@@ -5,30 +5,20 @@ using System.Text;
 
 namespace ProjectBronzeAge.Data
 {
-    public class Buff : Unit, IResourceID<Buff>
+    public class Buff : Unit
     {
-        public string name;
+        public string name, description;
         public bool hasLivetime, isUnremovable, isStackable, isDebuff;
-        public float livetime;
 
-        public int resourceId
+        public float livetime, currentLivetime;
+
+        public virtual void OnApply(LiveActor affected)
         {
-            get;
-            set;
+
         }
-
-        //public virtual void OnApply(LiveActor affected)
-        //{
-        
-        //}
-        //public virtual void OnUnapply(LiveActor affected)
-        //{
-        
-        //}
-
-        public Buff Clone()
+        public virtual void OnUnapply(LiveActor affected)
         {
-            return new Buff() { name = name, hasLivetime = hasLivetime, isUnremovable = isUnremovable, isDebuff = isDebuff, livetime = livetime };
+
         }
     }
 }

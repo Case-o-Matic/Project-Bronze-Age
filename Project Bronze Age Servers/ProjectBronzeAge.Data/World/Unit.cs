@@ -8,11 +8,6 @@ namespace ProjectBronzeAge.Data
 {
     public abstract class Unit : INetworkID
     {
-        public bool isDirty
-        {
-            get;
-            private set;
-        }
         public int networkId
         {
             get;
@@ -26,11 +21,6 @@ namespace ProjectBronzeAge.Data
         public virtual void Update(float deltatime)
         {
 
-        }
-
-        protected void SetDirty()
-        {
-            isDirty = true;
         }
     }
 }

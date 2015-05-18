@@ -39,18 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resource\Resources\AbilityResource.cs" />
+    <Compile Include="Resource\Resources\BuffResource.cs" />
+    <Compile Include="Resource\Resources\ItemResource.cs" />
+    <Compile Include="Resource\Resources\NPCActorResource.cs" />
+    <Compile Include="Resource\Resources\QuestResource.cs" />
+    <Compile Include="Resource\Resources\WorldInstanceResource.cs" />
     <Compile Include="World\Abilities\Ability.cs" />
     <Compile Include="World\Actors\Actor.cs" />
     <Compile Include="World\Actors\LiveActor.cs" />
-    <Compile Include="World\Actors\NPC\NpcActor.cs" />
+    <Compile Include="World\Actors\NPC\NPCActor.cs" />
     <Compile Include="World\Actors\Player\PlayerActor.cs" />
     <Compile Include="World\Buffs\Buff.cs" />
     <Compile Include="World\IDGenerator.cs" />
     <Compile Include="World\INetworkID.cs" />
-    <Compile Include="Resources\IResourceID.cs" />
+    <Compile Include="Resource\IResourceID.cs" />
     <Compile Include="World\Items\Item.cs" />
     <Compile Include="World\Quests\Quest.cs" />
-    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="World\Unit.cs" />
     <Compile Include="World\Vector3.cs" />
     <Compile Include="World\WorldInstance.cs" />

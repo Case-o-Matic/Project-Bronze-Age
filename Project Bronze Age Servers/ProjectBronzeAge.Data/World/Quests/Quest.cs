@@ -6,22 +6,14 @@ using System.Threading.Tasks;
 
 namespace ProjectBronzeAge.Data
 {
-    public class Quest : Unit, IResourceID<Quest>
+    public class Quest : Unit
     {
         public string name, description;
         public QuestTaskType taskType;
         public QuestEventType eventType;
-    
-        public int resourceId
-        {
-            get;
-            set;
-        }
 
-        public Quest Clone()
-        {
- 	        return new Quest() { name = name, description = description, taskType = taskType, eventType = eventType };
-        }
+        public int collecionItemId, collectionCount;
+        public int enemyActorId;
     }
 
     public enum QuestTaskType

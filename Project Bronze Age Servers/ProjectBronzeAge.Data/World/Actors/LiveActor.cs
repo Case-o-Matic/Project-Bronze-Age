@@ -9,7 +9,6 @@ namespace ProjectBronzeAge.Data
     public class LiveActor : Actor
     {
         public string name;
-        public Level level;
         public Inventory inventory;
 
         public Dictionary<AttributeType, float> attributes;
@@ -39,11 +38,19 @@ namespace ProjectBronzeAge.Data
 
         public void ApplyBuff(Buff buff)
         {
-            // TODO: Implement this
+            if(!buffs.Contains(buff))
+            {
+                buff.OnApply(this);
+                buffs.Add(buff);
+            }
         }
-        public void UnapplyBuff(Buff buff)
+        public void UnapplyBuff(Buff buff, bool force)
         {
-            // TODO: Implement this
+            if(buffs.Contains(buff))
+            {
+                buff.OnUnapply(this);
+                buffs.Remove(buff);
+            }
         }
 
         public override void Update(float deltatime)
@@ -52,7 +59,21 @@ namespace ProjectBronzeAge.Data
             nextStatePackage.isImmortal = isImmortal;
             nextStatePackage.isStunned = isStunned;
 
+            UpdateBuffs(deltatime);
+            UpdateAbilities(deltatime);
+
             base.Update(deltatime);
+        }
+
+        private void UpdateBuffs(float deltatime)
+        {
+            for (int i = 0; i < buffs.Count; i++)
+                buffs[i].Update(deltatime);
+        }
+        private void UpdateAbilities(float deltatime)
+        {
+            for (int i = 0; i < abilities.Count; i++)
+                abilities[i].Update(deltatime);
         }
     }
 

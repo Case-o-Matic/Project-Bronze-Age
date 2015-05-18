@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectBronzeAge.Data
 {
-    public class Ability : Unit, IResourceID<Ability>
+    public class Ability : Unit
     {
         public string name, description;
         public float cooldown, castTime, mana;
@@ -14,11 +14,6 @@ namespace ProjectBronzeAge.Data
         public float currentCooldown, currentCastTime;
         public bool canExecute { get { return (currentCastTime == 0 && currentCooldown == 0); } }
 
-        public int resourceId
-        {
-            get;
-            set;
-        }
         protected AbilityInvokationInfo currentAbilityInvokationInfo { get; private set; }
 
         public void OnExecute(AbilityInvokationInfo invokationinfo)
@@ -55,11 +50,6 @@ namespace ProjectBronzeAge.Data
         protected virtual void OnInvoke()
         {
             
-        }
-
-        public Ability Clone()
-        {
-            return new Ability() { name = name, description = description, mana = mana, cooldown = cooldown, castTime = castTime };
         }
     }
 

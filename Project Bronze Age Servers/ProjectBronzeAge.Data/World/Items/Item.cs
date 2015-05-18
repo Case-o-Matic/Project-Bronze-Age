@@ -6,21 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProjectBronzeAge.Data
 {
-    public class Item : Unit, IResourceID<Item>
+    public class Item : Unit
     {
         public string name, description;
         public ItemRarity rarity;
-
-        public int resourceId
-        {
-            get;
-            set;
-        }
-
-        public Item Clone()
-        {
-            return new Item() { name = name, description = description, rarity = rarity };
-        }
+        public int goldWorth;
+        // Add specific info
     }
     public enum ItemRarity
 	{
