@@ -14,6 +14,7 @@ namespace ProjectBronzeAge.Data
         public Dictionary<AttributeType, float> attributes;
         public List<Ability> abilities;
         public List<Buff> buffs;
+        public Level level;
 
         public bool isPoisonImmune, isImmortal, isStunned;
         public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
@@ -42,8 +43,9 @@ namespace ProjectBronzeAge.Data
 
         public void ApplyBuff(Buff buff)
         {
-            // Use parameters (isStackable/...)
-            if(!buffs.Contains(buff))
+            if (buffs.Contains(buff) && !buff.isStackable)
+                return;
+            else
             {
                 buff.OnApply(this);
                 buffs.Add(buff);
@@ -63,6 +65,9 @@ namespace ProjectBronzeAge.Data
 
         public override void Update(float deltatime)
         {
+            nextStatePackage.currentLevel = level.currentLevel;
+            nextStatePackage.currentXp = level.currentXp;
+
             nextStatePackage.isPoisonImmune = isPoisonImmune;
             nextStatePackage.isImmortal = isImmortal;
             nextStatePackage.isStunned = isStunned;
@@ -82,6 +87,12 @@ namespace ProjectBronzeAge.Data
         {
             for (int i = 0; i < abilities.Count; i++)
                 abilities[i].Update(deltatime);
+        }
+
+        private void InitializeAttributes()
+        {
+            attributes = new Dictionary<AttributeType, float>();
+            // TODO: Add attributes
         }
     }
 

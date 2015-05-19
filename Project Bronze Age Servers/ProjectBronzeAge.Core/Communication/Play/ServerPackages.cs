@@ -16,8 +16,9 @@ namespace ProjectBronzeAge.Core.Communication.Play
 
         public bool isPoisonImmune, isImmortal, isStunned;
         public float[] attributes;
+        public int currentLevel, currentXp;
 
-        public ServerPlayStatePackage(int actorid, float posx, float posy, float posz, float rotx, float roty, float rotz, bool ispoisonimmune, bool isimmortal, bool isstunned, float[] attributes)
+        public ServerPlayStatePackage(int actorid, float posx, float posy, float posz, float rotx, float roty, float rotz, bool ispoisonimmune, bool isimmortal, bool isstunned, float[] attributes, int currentlevel, int currentxp)
         {
             this.actorId = actorid;
             this.posX = posx;
@@ -30,6 +31,8 @@ namespace ProjectBronzeAge.Core.Communication.Play
             this.isImmortal = isimmortal;
             this.isStunned = isstunned;
             this.attributes = attributes;
+            this.currentLevel = currentlevel;
+            this.currentXp = currentxp;
         }
     }
 
