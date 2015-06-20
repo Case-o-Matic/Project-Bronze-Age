@@ -41,18 +41,4 @@ namespace ProjectBronzeAge.Core.Communication
             this.invokeAbilityTargetPosZ = invokeabilitytargetposz;
         }
     }
-
-    //[StructLayout(LayoutKind.Sequential)]
-    //[Serializable]
-    //public struct ClientPlayRequestPackage
-    //{
-    //    public int actorId;
-    //    public ClientPlayRequestPackageType type;
-
-    //    public ClientPlayRequestPackage(int actorid, ClientPlayRequestPackageType type)
-    //    {
-    //        this.actorId = actorid;
-    //        this.type = type;
-    //    }
-    //}
 }

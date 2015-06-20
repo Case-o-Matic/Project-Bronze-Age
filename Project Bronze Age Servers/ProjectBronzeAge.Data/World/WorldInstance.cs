@@ -1,19 +1,24 @@
-﻿using System;
+﻿using ProjectBronzeAge.Core.Communication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
 namespace ProjectBronzeAge.Data
 {
-    public class WorldInstance : INetworkID, IResourceID<WorldInstance>
+    public class WorldInstance : INetworkID
     {
-        public const double frameRate = 1000 / 30;
+        public const double frameRate = 1000 / 15;
+
+        public delegate void OnUpdateHandler(WorldInstance me, DateTime signaltime);
+        public event OnUpdateHandler OnUpdate;
 
         public string name;
-        public List<PlayerActor> players;
-        public List<int> npcIds;
+        public Dictionary<int, PlayerActor> players;
         public List<NPCActor> npcs;
         // Add static actors (chests/doors/...)
         // Add navmesh info
@@ -26,24 +31,17 @@ namespace ProjectBronzeAge.Data
             get;
             private set;
         }
-        public int resourceId
-        {
-            get;
-            set;
-        }
 
         public WorldInstance()
         {
-            npcIds.ForEach((nid) => { npcs.Add(ResourceManager.GetNPC(nid)); });
-
             lastFrameTime = DateTime.MinValue;
             updateTimer = new Timer(frameRate);
             updateTimer.Elapsed += updateTimer_Elapsed;
+            OnUpdate += WorldInstance_OnUpdate;
         }
 
-        public void Initialize(List<NPCActor> allnpcs)
+        public void Initialize()
         {
-            npcs = allnpcs;
             foreach (var npc in npcs)
                 npc.Start();
 
@@ -52,28 +50,42 @@ namespace ProjectBronzeAge.Data
 
         public void AddPlayer(PlayerActor player)
         {
-            if (!players.Contains(player))
+            if (!players.ContainsKey(player.networkId))
             {
-                players.Add(player);
+                players.Add(player.networkId, player);
                 player.Start();
             }
         }
-
-        public WorldInstance Create()
+        public void RemovePlayer(PlayerActor player)
         {
-            return new WorldInstance() { name = name, npcIds = npcIds };
+            if(players.ContainsKey(player.networkId))
+            {
+                players.Remove(player.networkId);
+            }
         }
 
-        void updateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        public void ApplyClientRequest(ClientPlayRequestPackage msg)
         {
-            float deltaTime = lastFrameTime.TimeOfDay.Milliseconds - e.SignalTime.TimeOfDay.Milliseconds; // Is this right?
+            var player = players[msg.actorId];
+            player.ApplyClientRequest(msg);
+        }
+
+        void WorldInstance_OnUpdate(WorldInstance me, DateTime signaltime)
+        {
+            float deltaTime = lastFrameTime.TimeOfDay.Milliseconds - signaltime.TimeOfDay.Milliseconds; // Is this right?
 
             for (int i = 0; i < players.Count; i++)
                 players[i].Update(deltaTime);
             for (int i = 0; i < npcs.Count; i++)
                 npcs[i].Update(deltaTime);
 
-            lastFrameTime = e.SignalTime;
+            lastFrameTime = signaltime;
+        }
+
+        void updateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (OnUpdate != null)
+                OnUpdate(this, e.SignalTime);
         }
     }
 }

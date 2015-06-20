@@ -14,7 +14,7 @@ namespace ProjectBronzeAge.GamePlayServer
     class Program
     {
         public const string version = "1.0.0-alpha.1";
-        private static ServerSocket serverSocket;
+        private static GameServer server;
 
         static void Main(string[] args)
         {
@@ -38,7 +38,7 @@ namespace ProjectBronzeAge.GamePlayServer
             #endregion
 
             Console.WriteLine("Initializing server...");
-
+            server = new GameServer(12802);
 
             Console.Read();
         }

@@ -19,7 +19,7 @@ namespace ProjectBronzeAge.Interaction
             : base(port)
         { }
 
-        public new void Start(bool manualreceive)
+        public void Start(bool manualreceive)
         {
             if (!manualreceive)
             {

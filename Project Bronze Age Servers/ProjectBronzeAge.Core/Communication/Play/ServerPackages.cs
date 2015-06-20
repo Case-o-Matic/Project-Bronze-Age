@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ProjectBronzeAge.Core.Communication.Play
+namespace ProjectBronzeAge.Core.Communication
 {
     [StructLayout(LayoutKind.Sequential)] // Find out pack value
     [Serializable]

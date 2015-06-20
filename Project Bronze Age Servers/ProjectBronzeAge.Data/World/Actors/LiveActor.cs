@@ -19,6 +19,8 @@ namespace ProjectBronzeAge.Data
         public bool isPoisonImmune, isImmortal, isStunned;
         public bool isDead { get { return attributes[AttributeType.CurrentHealth] <= 0; } }
 
+        public float totalMovementspeed { get { return attributes[AttributeType.BaseMovementspeed] + attributes[AttributeType.BonusMovementspeed]; } }
+
         public void UseAbility(Ability ability, AbilityInvokationInfo invokationinfo)
         {
             // Implement this
